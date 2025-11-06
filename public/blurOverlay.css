@@ -1,0 +1,61 @@
+/* Content Protection Styles - No Watermarks */
+
+* {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+img, video, canvas, svg {
+  -webkit-user-drag: none !important;
+  pointer-events: none !important;
+}
+
+button, a, input, textarea, select {
+  pointer-events: auto !important;
+}
+
+::selection {
+  background: transparent !important;
+}
+
+::-moz-selection {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+@media print {
+  * {
+    display: none !important;
+  }
+  
+  body::before {
+    content: "🚫 PROTECTED CONTENT" !important;
+    display: block !important;
+    font-size: 24px !important;
+    text-align: center !important;
+    margin-top: 50px !important;
+  }
+}
+
+*:focus {
+  outline: none !important;
+}
+
+* {
+  cursor: default !important;
+}
+
+input, textarea {
+  cursor: text !important;
+}

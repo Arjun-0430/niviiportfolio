@@ -1,0 +1,163 @@
+{
+  "name": "Nivetha V",
+  "title": "SQL Developer",
+  "tagline": "Designing structured data solutions with clarity, performance, and precision.",
+  "location": "Chennai, India",
+  "languages": ["English", "Tamil", "Telugu"],
+  "contact": {
+    "email": "nivethavenkatraman48@gmail.com",
+    "phone": "8825701235",
+    "github": "https://github.com/Nivetha-1235",
+    "resumePdf": "/Resume_Nivetha.pdf"
+  },
+  "about": "I'm a dedicated SQL Developer experienced in building and managing relational databases. I understand both backend data structures and the frontend experiences they power. My focus is optimizing data flow, query performance, and transforming raw data into actionable insights. With a foundation in the MERN Stack and design tools like Figma and Flutterflow, I deliver systems that are both efficient and user-friendly.",
+  "skills": {
+    "programming": ["SQL", "C", "C++", "JavaScript"],
+    "scripting": ["Python"],
+    "webTech": ["MERN Stack"],
+    "designPlatforms": ["Figma", "Flutterflow", "Webflow"],
+    "tools": ["SQL Server Management Studio (SSMS)", "SQL Server Reporting Services (SSRS)", "Power BI", "MS Excel (Intermediate)"],
+    "competencies": ["SQL Developer", "SQL Server Developer", "Web Development", "UI Designing"]
+  },
+  "experience": [
+    {
+      "role": "SQL Project Trainee",
+      "company": "Photon Interactive Pvt Ltd",
+      "location": "Chennai, India",
+      "period": "Jul 2024 – Oct 2024",
+      "bullets": [
+        "Built and managed SQL Server databases using SSMS with focus on performance optimization",
+        "Designed normalized database schemas and wrote complex T-SQL queries for data retrieval",
+        "Created stored procedures and functions to automate business logic and data processing",
+        "Implemented indexing strategies that improved query performance by 40%",
+        "Collaborated in agile development workflows and delivered projects on schedule",
+        "Developed ETL processes for data migration and transformation tasks",
+        "Implemented data validation and integrity constraints for robust database systems"
+      ]
+    },
+    {
+      "role": "Frontend Intern",
+      "company": "VR Della Pvt Ltd",
+      "location": "Trichy, India",
+      "period": "May 2024 – Jun 2024",
+      "bullets": [
+        "Developed responsive front-end features using HTML5, CSS3, JavaScript, and jQuery",
+        "Created interactive user interfaces with smooth animations and transitions",
+        "Implemented cross-browser compatibility ensuring consistent user experience",
+        "Built reusable UI components that reduced development time by 30%",
+        "Created user flows and refined UI for clarity and responsiveness",
+        "Collaborated with design team to translate mockups into functional web pages"
+      ]
+    },
+    {
+      "role": "MySQL Intern",
+      "company": "Varutech Solutions Pvt Ltd",
+      "location": "Chennai, India",
+      "period": "Jan 2024 – Feb 2024",
+      "bullets": [
+        "Designed and implemented relational database schemas with proper normalization",
+        "Created complex MySQL queries for data analysis and reporting requirements",
+        "Developed database triggers and procedures for automated data management",
+        "Optimized existing queries resulting in 25% faster data retrieval",
+        "Managed entity relationships and foreign key constraints for data integrity",
+        "Responded to user queries and supported application data needs efficiently"
+      ]
+    },
+    {
+      "role": "UI Design Intern",
+      "company": "Core Idea Innovations",
+      "location": "Chennai, India",
+      "period": "Aug 2022 – Sep 2022",
+      "bullets": [
+        "Created interactive UI prototypes in Flutterflow with modern design principles",
+        "Conducted user testing sessions and gathered feedback for design improvements",
+        "Designed wireframes and mockups for mobile and web applications",
+        "Implemented design systems and style guides for consistent branding",
+        "Collaborated with development team to ensure design feasibility",
+        "Created user journey maps and personas to enhance user experience"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.E — Computer Science & Engineering",
+      "institution": "Vels Institute of Science, Technology & Advanced Studies",
+      "period": "2021–2025",
+      "detail": "CGPA 8.6"
+    },
+    {
+      "degree": "HSE — Biology & Maths",
+      "institution": "SVM Hr. Sec. School",
+      "period": "2019–2021",
+      "detail": "81.5%"
+    },
+    {
+      "degree": "SSLC — General",
+      "institution": "YWCA Matriculation School",
+      "period": "2018–2019",
+      "detail": "74%"
+    }
+  ],
+  "certifications": [
+    "Data Analytics & Data Science using Python",
+    "Cyber Security Expert (Level 1)",
+    "Power BI for Beginners",
+    "Workshop on Virtual Reality",
+    "JavaScript — Beginner (Udemy)",
+    "Fullstack Development Course (Skill India)"
+  ],
+  "traits": ["Accountable", "Hardworking", "Consistent", "Team Management", "Efficient", "Innovative"],
+  "projects": [
+    {
+      "name": "Data Insights Dashboard",
+      "type": "SQL + Power BI",
+      "category": "Self-Initiated",
+      "summary": "Developed a complete data visualization and analysis dashboard that connects relational SQL databases with Power BI to extract actionable insights.",
+      "tech": ["SQL Server", "Power BI", "Excel"],
+      "highlights": ["Query optimization", "Data modeling", "Interactive dashboards"],
+      "details": {
+        "description": [
+          "Designed normalized SQL database schema to store retail data (sales, products, customers, inventory).",
+          "Wrote complex SQL queries to compute KPIs such as total revenue, profit margin, and sales by region.",
+          "Integrated SQL dataset into Power BI to create dynamic dashboards with filters, drill-downs, and visual metrics.",
+          "Improved report refresh speed by optimizing queries and using indexed joins."
+        ],
+        "outcome": "Provided a fully functional data visualization solution that demonstrates data aggregation, analysis, and storytelling using SQL and Power BI."
+      }
+    },
+    {
+      "name": "Inventory Management System",
+      "type": "MERN Stack + SQL",
+      "category": "Self-Initiated",
+      "summary": "Designed and developed a lightweight inventory tracking web application with real-time CRUD operations and database synchronization.",
+      "tech": ["MongoDB", "Express.js", "React", "Node.js", "SQL Server"],
+      "highlights": ["RESTful APIs", "Real-time updates", "Hybrid database"],
+      "details": {
+        "description": [
+          "Built the backend API using Node.js and Express for managing stock levels, supplier data, and order flow.",
+          "Used SQL for structured inventory records and MongoDB for logs, ensuring hybrid data handling.",
+          "Developed responsive front-end UI in React, displaying stock analytics and alerts for low inventory.",
+          "Implemented secure API endpoints for adding, updating, and deleting product entries."
+        ],
+        "outcome": "Streamlined product tracking and demonstrated ability to integrate relational data systems with modern full-stack architecture."
+      }
+    },
+    {
+      "name": "Portfolio UI Concept",
+      "type": "Figma + Flutterflow",
+      "category": "Concept Design",
+      "summary": "Created an interactive and futuristic developer portfolio prototype focused on motion design, clean hierarchy, and recruiter engagement.",
+      "tech": ["Figma", "Flutterflow", "Webflow"],
+      "highlights": ["Motion design", "Interactive prototypes", "Apple-inspired UI"],
+      "details": {
+        "description": [
+          "Designed mobile-first, scroll-triggered interface inspired by Apple's motion principles.",
+          "Added animated components like glass cards, scroll progress, and interactive buttons.",
+          "Created responsive layouts and design tokens for light/dark themes.",
+          "Focused on accessibility and brand identity consistency for professional representation."
+        ],
+        "outcome": "Showcased front-end design thinking and understanding of user experience flow for professional portfolios."
+      }
+    }
+  ]
+}
