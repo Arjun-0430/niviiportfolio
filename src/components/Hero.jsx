@@ -41,37 +41,15 @@ const Hero = ({ data }) => {
             </motion.span>
             <motion.span 
               className="gradient-text font-semibold relative inline-block"
-              initial={{ opacity: 0, scale: 0.8, filter: 'blur(15px)' }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                filter: 'blur(0px)',
-                textShadow: [
-                  '0 0 0px rgba(0,122,255,0)',
-                  '0 0 30px rgba(0,122,255,0.6)',
-                  '0 0 0px rgba(0,122,255,0)'
-                ]
-              }}
+              initial={{ filter: 'blur(15px)' }}
+              animate={{ filter: 'blur(0px)' }}
               transition={{ 
                 duration: 1.5,
                 delay: 0.8,
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
             >
-              <TextScramble 
-                text="Nivetha V." 
-                startDelay={1200}
-                scrambleSpeed={30}
-              />
-              <motion.div
-                className="absolute -inset-4 bg-gradient-to-r from-blue-400/30 to-purple-400/30 rounded-2xl blur-2xl"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ 
-                  opacity: [0, 0.8, 0.3, 0.6, 0],
-                  scale: [0.8, 1.2, 1, 1.1, 0.9]
-                }}
-                transition={{ duration: 3, delay: 1.8, ease: 'easeInOut' }}
-              />
+              Nivetha V.
             </motion.span>
           </motion.h1>
           
