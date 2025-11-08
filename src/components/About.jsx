@@ -74,7 +74,7 @@ const About = ({ data }) => {
                 className="aspect-[3/4] bg-gradient-to-br from-primary-400 via-accent-400 to-primary-500 dark:from-primary-600 dark:via-accent-600 dark:to-primary-700 rounded-2xl flex items-center justify-center relative overflow-hidden p-2"
               >
                 <motion.img
-                  src="/nivii.jpg"
+                  src="/niviiportfolio/nivii.jpg"
                   alt="Nivetha V"
                   className="w-full h-full object-fill rounded-xl"
                   animate={{ 
