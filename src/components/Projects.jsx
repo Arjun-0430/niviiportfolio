@@ -13,9 +13,9 @@ const Projects = ({ data }) => {
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -50])
 
   const projectImages = {
-    'SQL + Power BI': '/project-images/dashboard.svg',
-    'MERN Stack + SQL': '/project-images/inventory.svg',
-    'Figma + Flutterflow': '/project-images/portfolio.svg'
+    'SQL + Power BI': './project-images/dashboard.svg',
+    'MERN Stack + SQL': './project-images/inventory.svg',
+    'Figma + Flutterflow': './project-images/portfolio.svg'
   }
   
   const projectColors = [
