@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import SectionBackground from './SectionBackground'
 
 const ProjectsShowcase = ({ data }) => {
   const { ref, isInView, variants, itemVariants } = useScrollReveal()
@@ -31,11 +32,12 @@ const ProjectsShowcase = ({ data }) => {
     <motion.section
       id="projects"
       ref={ref}
-      className="py-24 px-6 bg-gradient-to-b from-blue-50/20 to-apple-white dark:from-apple-gray/20 dark:to-apple-black overflow-hidden"
+      className="py-24 px-6 bg-gradient-to-b from-blue-50/20 to-apple-white dark:from-apple-gray/20 dark:to-apple-black overflow-hidden relative"
       variants={variants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
+      <SectionBackground type="projects" />
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import SectionBackground from './SectionBackground'
 
 const TraitsVisualization = ({ data }) => {
   const { ref, isInView, variants, itemVariants } = useScrollReveal()
@@ -13,6 +14,7 @@ const TraitsVisualization = ({ data }) => {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
+      <SectionBackground type="traits" />
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (

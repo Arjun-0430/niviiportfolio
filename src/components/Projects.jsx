@@ -1,14 +1,23 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import CardStack from './CardStack'
+import ImageReveal from './ImageReveal'
+import FloatingElements from './FloatingElements'
 
 const Projects = ({ data }) => {
   const { ref, isInView, variants, itemVariants } = useScrollReveal()
   const [hoveredProject, setHoveredProject] = useState(null)
+  const [expandedProject, setExpandedProject] = useState(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -50])
 
-  const projectIcons = ['📊', '📦', '🎨']
+  const projectImages = {
+    'SQL + Power BI': '/project-images/dashboard.svg',
+    'MERN Stack + SQL': '/project-images/inventory.svg',
+    'Figma + Flutterflow': '/project-images/portfolio.svg'
+  }
+  
   const projectColors = [
     'from-blue-500 to-purple-600',
     'from-green-500 to-teal-600', 
@@ -30,30 +39,10 @@ const Projects = ({ data }) => {
         style={{ y: backgroundY }}
       />
       
-      {/* Floating Tech Elements */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute opacity-5"
-          style={{
-            left: `${(i * 7) % 100}%`,
-            top: `${(i * 11) % 100}%`,
-          }}
-          animate={{
-            rotate: [0, 360],
-            scale: [1, 1.5, 1],
-            x: [0, Math.sin(i) * 100, 0],
-            y: [0, Math.cos(i) * 50, 0],
-          }}
-          transition={{
-            duration: 12 + i * 3,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        >
-          <div className="text-4xl">{['⚡', '🚀', '💎', '🔮', '✨'][i % 5]}</div>
-        </motion.div>
-      ))}
+      <FloatingElements 
+        elements={['⚡', '🚀', '💎', '🔮', '✨', '🎯', '🌟', '💫']}
+        count={15}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Enhanced Header */}
@@ -106,44 +95,41 @@ const Projects = ({ data }) => {
               onHoverStart={() => setHoveredProject(idx)}
               onHoverEnd={() => setHoveredProject(null)}
             >
-              {/* Main Project Card */}
-              <motion.div
-                className="glass-strong rounded-3xl p-8 h-full relative overflow-hidden perspective-1000"
-                whileHover={{ 
-                  scale: 1.05,
-                  rotateY: 8,
-                  rotateX: 5,
-                  boxShadow: '0 40px 80px rgba(14, 165, 233, 0.2)'
-                }}
-                transition={{ 
-                  type: 'spring',
-                  stiffness: 200,
-                  damping: 20
-                }}
+              <CardStack 
+                stackOffset={6}
+                hoverLift={15}
+                className="h-full"
               >
+                <div className="glass-strong rounded-3xl p-8 h-full relative overflow-hidden">
                 {/* Dynamic Background */}
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${projectColors[idx]} opacity-0 group-hover:opacity-10 rounded-3xl`}
                   transition={{ duration: 0.4 }}
                 />
                 
-                {/* Animated Icon */}
-                <motion.div 
-                  className="relative z-10 mb-8"
-                  animate={{
-                    rotate: hoveredProject === idx ? [0, 360] : 0,
-                    scale: hoveredProject === idx ? [1, 1.2, 1] : 1
-                  }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <div className="text-7xl mb-4">{projectIcons[idx]}</div>
+                {/* Project Image */}
+                <div className="relative z-10 mb-8">
+                  <motion.div
+                    className="mb-4"
+                    animate={{
+                      scale: hoveredProject === idx ? 1.1 : 1,
+                      rotate: hoveredProject === idx ? [0, 2, -2, 0] : 0
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img 
+                      src={projectImages[project.type] || '/project-images/dashboard.svg'}
+                      alt={project.name}
+                      className="w-20 h-20 object-contain"
+                    />
+                  </motion.div>
                   <motion.div
                     className={`w-16 h-1 bg-gradient-to-r ${projectColors[idx]} rounded-full`}
                     initial={{ width: 0 }}
                     animate={isInView ? { width: 64 } : {}}
                     transition={{ duration: 0.8, delay: idx * 0.2 + 0.5 }}
                   />
-                </motion.div>
+                </div>
                 
                 {/* Content */}
                 <div className="relative z-10 space-y-4">
@@ -185,16 +171,118 @@ const Projects = ({ data }) => {
                       className="flex items-center gap-2 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={() => setExpandedProject(expandedProject === idx ? null : idx)}
                     >
-                      <span>View Details</span>
+                      <span>{expandedProject === idx ? 'Hide Details' : 'View Details'}</span>
                       <motion.span
-                        animate={{ x: hoveredProject === idx ? 5 : 0 }}
+                        animate={{ 
+                          x: hoveredProject === idx ? 5 : 0,
+                          rotate: expandedProject === idx ? 90 : 0
+                        }}
                         transition={{ duration: 0.2 }}
                       >
                         →
                       </motion.span>
                     </motion.button>
                   </motion.div>
+
+                    {/* Tech Stack */}
+                    {project.tech && (
+                      <motion.div 
+                        className="flex flex-wrap gap-2 mt-4"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ delay: idx * 0.2 + 1.1 }}
+                      >
+                        {project.tech.map((tech, techIndex) => (
+                          <span
+                            key={techIndex}
+                            className="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded-lg text-sm"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </motion.div>
+                    )}
+
+                    {/* Highlights */}
+                    {project.highlights && (
+                      <motion.div 
+                        className="mt-4"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ delay: idx * 0.2 + 1.3 }}
+                      >
+                        <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">
+                          Key Features:
+                        </p>
+                        <ul className="space-y-1">
+                          {project.highlights.map((highlight, highlightIndex) => (
+                            <li
+                              key={highlightIndex}
+                              className="text-sm text-neutral-600 dark:text-neutral-400 flex items-center gap-2"
+                            >
+                              <span className="w-1 h-1 bg-primary-500 rounded-full" />
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    )}
+
+                    {/* Expanded Details */}
+                    <AnimatePresence>
+                      {expandedProject === idx && project.details && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700"
+                        >
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-4">
+                              <span className="text-sm font-medium text-primary-500">
+                                {project.category}
+                              </span>
+                              <span className="w-1 h-1 bg-neutral-400 rounded-full" />
+                              <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                                {project.type}
+                              </span>
+                            </div>
+                            
+                            <div>
+                              <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3">
+                                Project Details
+                              </h4>
+                              <ul className="space-y-2">
+                                {project.details.description.map((detail, detailIndex) => (
+                                  <motion.li
+                                    key={detailIndex}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: detailIndex * 0.1 }}
+                                    className="text-sm text-neutral-700 dark:text-neutral-300 flex items-start gap-3"
+                                  >
+                                    <span className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0" />
+                                    {detail}
+                                  </motion.li>
+                                ))}
+                              </ul>
+                            </div>
+                            
+                            <div className="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-xl p-4">
+                              <h4 className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-2">
+                                Outcome
+                              </h4>
+                              <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                                {project.details.outcome}
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                 </div>
                 
                 {/* Hover Particles */}
@@ -218,7 +306,8 @@ const Projects = ({ data }) => {
                     }}
                   />
                 ))}
-              </motion.div>
+                </div>
+              </CardStack>
               
               {/* Reflection Effect */}
               <motion.div

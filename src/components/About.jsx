@@ -58,14 +58,17 @@ const About = ({ data }) => {
             onHoverEnd={() => setIsHovered(false)}
           >
             <motion.div
-              className="glass-strong rounded-3xl p-8 shadow-2xl perspective-1000"
+              className="glass-strong rounded-3xl p-8 shadow-2xl"
+              style={{ perspective: '1000px' }}
+              initial={{ rotateY: -15, rotateX: 10 }}
+              animate={{ rotateY: -8, rotateX: 5 }}
               whileHover={{ 
-                rotateY: 5, 
-                rotateX: 5, 
-                scale: 1.02,
-                boxShadow: '0 30px 80px rgba(200, 162, 200, 0.3)'
+                rotateY: 8, 
+                rotateX: -5, 
+                scale: 1.05,
+                boxShadow: '0 40px 100px rgba(0, 122, 255, 0.4)'
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <motion.div 
                 className="aspect-[3/4] bg-gradient-to-br from-primary-400 via-accent-400 to-primary-500 dark:from-primary-600 dark:via-accent-600 dark:to-primary-700 rounded-2xl flex items-center justify-center relative overflow-hidden p-2"

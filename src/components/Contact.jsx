@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
+import FormValidation from './FormValidation'
+import RippleButton from './RippleButton'
 
 const Contact = ({ data }) => {
   const ref = useRef(null)
@@ -197,32 +199,18 @@ const Contact = ({ data }) => {
                   { name: 'name', type: 'text', placeholder: 'Your Name', icon: '👤' },
                   { name: 'email', type: 'email', placeholder: 'Your Email', icon: '✉️' },
                 ].map((field) => (
-                  <motion.div 
+                  <FormValidation
                     key={field.name}
-                    className="relative"
-                    whileFocus={{ scale: 1.02 }}
-                  >
-                    <motion.div
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-xl"
-                      animate={{
-                        scale: focusedField === field.name ? 1.2 : 1,
-                        rotate: focusedField === field.name ? [0, 10, -10, 0] : 0
-                      }}
-                    >
-                      {field.icon}
-                    </motion.div>
-                    <input
-                      type={field.type}
-                      name={field.name}
-                      placeholder={field.placeholder}
-                      value={formData[field.name]}
-                      onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
-                      onFocus={() => setFocusedField(field.name)}
-                      onBlur={() => setFocusedField(null)}
-                      required
-                      className="w-full pl-14 pr-6 py-4 rounded-xl bg-white/30 dark:bg-neutral-800/30 border-2 border-transparent focus:border-primary-500/50 focus:bg-white/50 dark:focus:bg-neutral-700/50 transition-all duration-300 backdrop-blur-sm text-neutral-900 dark:text-neutral-100"
-                    />
-                  </motion.div>
+                    type={field.type}
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    icon={field.icon}
+                    value={formData[field.name]}
+                    onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
+                    onFocus={() => setFocusedField(field.name)}
+                    onBlur={() => setFocusedField(null)}
+                    required
+                  />
                 ))}
                 
                 <motion.div 
@@ -230,7 +218,7 @@ const Contact = ({ data }) => {
                   whileFocus={{ scale: 1.02 }}
                 >
                   <motion.div
-                    className="absolute left-4 top-4 text-xl"
+                    className="absolute left-4 top-4 text-xl z-10"
                     animate={{
                       scale: focusedField === 'message' ? 1.2 : 1,
                       rotate: focusedField === 'message' ? [0, 10, -10, 0] : 0
@@ -251,12 +239,11 @@ const Contact = ({ data }) => {
                   />
                 </motion.div>
                 
-                <motion.button
-                  type="submit"
+                <RippleButton
+                  onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-xl font-semibold text-lg relative overflow-hidden group"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-xl font-semibold text-lg group"
+                  rippleColor="rgba(255, 255, 255, 0.4)"
                 >
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-accent-500 to-primary-600 opacity-0 group-hover:opacity-100"
@@ -285,7 +272,7 @@ const Contact = ({ data }) => {
                       </>
                     )}
                   </span>
-                </motion.button>
+                </RippleButton>
               </form>
 
               {/* Success Message */}

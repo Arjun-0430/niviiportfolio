@@ -4,14 +4,14 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import HelloIntro from './components/HelloIntro'
 import SmoothScroll from './components/SmoothScroll'
 import Hero from './components/Hero'
-import AboutSection from './components/AboutSection'
-import SkillsGrid from './components/SkillsGrid'
+import About from './components/About'
+import Skills from './components/Skills'
 import ExperienceTimeline from './components/ExperienceTimeline'
-import ProjectsShowcase from './components/ProjectsShowcase'
+import Projects from './components/Projects'
 import EducationSection from './components/EducationSection'
 import CertificationsBadges from './components/CertificationsBadges'
 import TraitsVisualization from './components/TraitsVisualization'
-import ContactSection from './components/ContactSection'
+import Contact from './components/Contact'
 import FooterSection from './components/FooterSection'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
@@ -125,14 +125,14 @@ function App() {
             <div className="relative z-10">
               <SmoothScroll>
                 <Hero data={resumeData} />
-                <AboutSection data={resumeData} />
-                <SkillsGrid data={resumeData} />
+                <About data={resumeData} />
+                <Skills data={resumeData} />
                 <ExperienceTimeline data={resumeData} />
-                <ProjectsShowcase data={resumeData} />
+                <Projects data={resumeData} />
                 <EducationSection data={resumeData} />
                 <CertificationsBadges data={resumeData} />
                 <TraitsVisualization data={resumeData} />
-                <ContactSection data={resumeData} />
+                <Contact data={resumeData} />
                 <FooterSection data={resumeData} />
               </SmoothScroll>
             </div>

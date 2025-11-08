@@ -1,6 +1,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import SectionBackground from './SectionBackground'
+import MorphingCard from './MorphingCard'
+import CompanyLogo from './CompanyLogo'
+import SpiralTimeline from './SpiralTimeline'
 
 const ExperienceTimeline = ({ data }) => {
   const { ref, isInView, variants, itemVariants } = useScrollReveal()
@@ -12,22 +16,28 @@ const ExperienceTimeline = ({ data }) => {
   
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
   
+  // Safety check for data
+  if (!data || !data.experience || !Array.isArray(data.experience)) {
+    return null
+  }
+  
   const companyLogos = {
     'Photon Interactive Pvt Ltd': '/company-logos/photon.svg',
-    'VR Della Pvt Ltd': '/company-logos/vrdella.png',
-    'Varutech Solutions Pvt Ltd': '/company-logos/varutech.png',
-    'Core Idea Innovations': '/company-logos/core idea innovations.png'
+    'VR Della Pvt Ltd': '/company-logos/vrdella.svg',
+    'Varutech Solutions Pvt Ltd': '/company-logos/varutech.svg',
+    'Core Idea Innovations': '/company-logos/core idea innovations.svg'
   }
 
   return (
     <motion.section
       id="experience"
       ref={ref}
-      className="py-24 px-6 bg-apple-white dark:bg-apple-black"
+      className="py-24 px-6 bg-apple-white dark:bg-apple-black relative"
       variants={variants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
+      <SectionBackground type="experience" />
       <div className="max-w-5xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -42,7 +52,7 @@ const ExperienceTimeline = ({ data }) => {
           </p>
         </motion.div>
 
-        {/* Animated Timeline */}
+        {/* Enhanced Animated Timeline */}
         <div ref={timelineRef} className="relative">
           {/* Timeline Line */}
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-apple-black/20 dark:bg-apple-white/20" />
@@ -54,53 +64,16 @@ const ExperienceTimeline = ({ data }) => {
           />
 
           {data.experience.map((exp, index) => (
-            <motion.div
-              key={index}
-              className={`relative mb-16 ${
-                index % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'
-              }`}
-              variants={itemVariants}
+            <SpiralTimeline 
+              key={index} 
+              index={index} 
+              totalItems={data.experience.length}
             >
-              {/* Timeline Node */}
-              <motion.div
-                className="absolute left-8 md:left-1/2 w-4 h-4 bg-apple-blue rounded-full -translate-x-1/2 z-10 shadow-lg"
-                whileInView={{
-                  scale: [0, 1.3, 1],
-                  boxShadow: [
-                    '0 0 0 0 rgba(0, 122, 255, 0.7)',
-                    '0 0 0 10px rgba(0, 122, 255, 0)',
-                    '0 0 0 0 rgba(0, 122, 255, 0)'
-                  ]
-                }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              />
-
-              {/* Experience Card */}
-              <div className={`ml-16 md:ml-0 ${
-                index % 2 === 0 ? 'md:mr-12' : 'md:ml-12'
-              }`}>
-                <motion.div
-                  className="morph-card rounded-3xl p-8 relative"
-                  whileHover={{ 
-                    scale: 1.05,
-                    rotateY: 5,
-                    z: 30
-                  }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                <MorphingCard 
+                  morphColor="from-blue-400 to-purple-500"
+                  className="h-full"
                 >
-                  {/* Morphing Background Effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-3xl"
-                    animate={{
-                      background: [
-                        'linear-gradient(45deg, rgba(0,122,255,0.1), rgba(255,107,107,0.1))',
-                        'linear-gradient(45deg, rgba(255,107,107,0.1), rgba(78,205,196,0.1))',
-                        'linear-gradient(45deg, rgba(78,205,196,0.1), rgba(0,122,255,0.1))'
-                      ]
-                    }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  />
+
                   
                   {/* Role & Company */}
                   <div className="mb-4 relative z-10">
@@ -118,15 +91,13 @@ const ExperienceTimeline = ({ data }) => {
                         <span className="w-2 h-2 bg-apple-blue rounded-full animate-pulse" />
                         {exp.company}
                       </div>
-                      {/* Company Logo inline with name */}
+                      {/* Enhanced Company Logo */}
                       {companyLogos[exp.company] && (
-                        <div className="w-32 h-32 opacity-80">
-                          <img
-                            src={companyLogos[exp.company]}
-                            alt={exp.company}
-                            className="w-full h-full object-contain filter drop-shadow-lg"
-                          />
-                        </div>
+                        <CompanyLogo
+                          src={companyLogos[exp.company]}
+                          alt={exp.company}
+                          size="w-40 h-40"
+                        />
                       )}
                     </motion.div>
                     <p className="text-apple-black/60 dark:text-apple-white/60 text-sm">
@@ -136,7 +107,7 @@ const ExperienceTimeline = ({ data }) => {
 
                   {/* Interactive Achievement Bubbles */}
                   <div className="space-y-4 relative z-10">
-                    {exp.bullets.map((bullet, bulletIndex) => (
+                    {exp.bullets && exp.bullets.map((bullet, bulletIndex) => (
                       <motion.div
                         key={bulletIndex}
                         className="group relative"
@@ -177,9 +148,8 @@ const ExperienceTimeline = ({ data }) => {
                       Most Recent
                     </motion.div>
                   )}
-                </motion.div>
-              </div>
-            </motion.div>
+                </MorphingCard>
+            </SpiralTimeline>
           ))}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import SectionBackground from './SectionBackground'
 
 const EducationSection = ({ data }) => {
   const { ref, isInView, variants, itemVariants } = useScrollReveal()
@@ -10,11 +11,12 @@ const EducationSection = ({ data }) => {
     <motion.section
       id="education"
       ref={ref}
-      className="py-24 px-6 bg-gradient-to-b from-apple-white to-blue-50/10 dark:from-apple-black dark:to-apple-gray/10"
+      className="py-24 px-6 bg-gradient-to-b from-apple-white to-blue-50/10 dark:from-apple-black dark:to-apple-gray/10 relative"
       variants={variants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
+      <SectionBackground type="education" />
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div

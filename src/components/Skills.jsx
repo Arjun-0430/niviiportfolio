@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import AdvancedSkillBar from './AdvancedSkillBar'
+import GlowCard from './GlowCard'
 
 const Skills = ({ data }) => {
   const { ref, isInView, variants, itemVariants } = useScrollReveal()
@@ -138,24 +140,11 @@ const Skills = ({ data }) => {
               onHoverStart={() => setHoveredSkill(idx)}
               onHoverEnd={() => setHoveredSkill(null)}
             >
-              <motion.div
-                className="glass-strong rounded-3xl p-8 h-full relative overflow-hidden"
-                whileHover={{ 
-                  scale: 1.05, 
-                  rotateY: 5,
-                  boxShadow: '0 30px 60px rgba(14, 165, 233, 0.3)'
-                }}
-                transition={{ 
-                  type: 'spring',
-                  stiffness: 200,
-                  damping: 20
-                }}
+              <GlowCard 
+                glowColor={group.color}
+                hoverScale={1.05}
+                className="h-full"
               >
-                {/* Animated Background Gradient */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${group.color} opacity-0 group-hover:opacity-10`}
-                  transition={{ duration: 0.3 }}
-                />
                 
                 {/* Icon with Animation */}
                 <motion.div 
@@ -173,33 +162,17 @@ const Skills = ({ data }) => {
                   {group.title}
                 </h3>
                 
-                {/* Skills with Progress Bars */}
+                {/* Advanced Skills with Animated Progress Bars */}
                 <div className="space-y-4 relative z-10">
                   {group.items.map((item, itemIdx) => (
-                    <motion.div
+                    <AdvancedSkillBar
                       key={item}
-                      className="space-y-2"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ delay: idx * 0.1 + itemIdx * 0.05 }}
-                    >
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{item}</span>
-                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{group.proficiency[itemIdx] || 85}%</span>
-                      </div>
-                      <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 overflow-hidden">
-                        <motion.div
-                          className={`h-full bg-gradient-to-r ${group.color} rounded-full`}
-                          initial={{ width: 0 }}
-                          animate={isInView ? { width: `${group.proficiency[itemIdx] || 85}%` } : {}}
-                          transition={{ 
-                            duration: 1.5, 
-                            delay: idx * 0.2 + itemIdx * 0.1,
-                            ease: 'easeOut'
-                          }}
-                        />
-                      </div>
-                    </motion.div>
+                      skill={item}
+                      percentage={group.proficiency[itemIdx] || 85}
+                      color={group.color}
+                      delay={idx * 200 + itemIdx * 100}
+                      isVisible={isInView}
+                    />
                   ))}
                 </div>
                 
@@ -224,7 +197,7 @@ const Skills = ({ data }) => {
                     }}
                   />
                 ))}
-              </motion.div>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
