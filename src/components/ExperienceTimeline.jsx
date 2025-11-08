@@ -22,10 +22,10 @@ const ExperienceTimeline = ({ data }) => {
   }
   
   const companyLogos = {
-    'Photon Interactive Pvt Ltd': '/company-logos/photon.svg',
-    'VR Della Pvt Ltd': '/company-logos/vrdella.svg',
-    'Varutech Solutions Pvt Ltd': '/company-logos/varutech.svg',
-    'Core Idea Innovations': '/company-logos/core idea innovations.svg'
+    'Photon Interactive Pvt Ltd': '/niviiportfolio/company-logos/photon.png',
+    'VR Della Pvt Ltd': '/niviiportfolio/company-logos/vrdella.png',
+    'Varutech Solutions Pvt Ltd': '/niviiportfolio/company-logos/varutech.png',
+    'Core Idea Innovations': '/niviiportfolio/company-logos/core-idea-innovations.png'
   }
 
   return (
