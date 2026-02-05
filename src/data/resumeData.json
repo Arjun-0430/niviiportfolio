@@ -37,8 +37,8 @@
       ]
     },
     {
-      "role": "Frontend Intern",
-      "company": "VR Della Pvt Ltd",
+      "role": "Frontend Web Developer Intern",
+      "company": "VR Della Smart Tech",
       "location": "Trichy, India",
       "period": "May 2024 – Jun 2024",
       "bullets": [
@@ -100,12 +100,15 @@
     }
   ],
   "certifications": [
-    "Data Analytics & Data Science using Python",
-    "Cyber Security Expert (Level 1)",
-    "Power BI for Beginners",
-    "Workshop on Virtual Reality",
-    "JavaScript — Beginner (Udemy)",
-    "Fullstack Development Course (Skill India)"
+    "HackerRank SQL (Basic) — Nov 2025",
+    "HackerRank SQL (Advanced) — Nov 2025",
+    "Hands-on SSMS, SQL Queries & Azure Data Studio (Udemy) — Dec 2025",
+    "Mastering Power BI: From Data to Dashboard (Udemy) — Dec 2025",
+    "Data Analytics & Data Science using Python — Sep 2024",
+    "Cyber Security Expert – Level 1 — Oct 2023",
+    "Workshop on Virtual Reality — Aug 2024",
+    "JavaScript (Beginner Level) — Mar 2024",
+    "Full Stack Development Course (Skill India) — Sep 2024"
   ],
   "traits": ["Accountable", "Hardworking", "Consistent", "Team Management", "Efficient", "Innovative"],
   "projects": [

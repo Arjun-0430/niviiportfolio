@@ -3,8 +3,6 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useCountUp } from '../hooks/useCountUp'
 import GlowCard from './GlowCard'
 
-const skillIcons = ['SQL', 'Python', 'JS', 'Power BI', 'Figma']
-
 export default function About({ data }) {
   const { ref: revealRef, isInView, variants, itemVariants } = useScrollReveal(0.1, true)
   const { scrollYProgress } = useScroll({ target: revealRef, offset: ['start end', 'end start'] })
@@ -107,9 +105,9 @@ export default function About({ data }) {
             </motion.div>
           </div>
 
-          {/* Right: 40% visual - 9:16 portrait frame + skill orbs */}
+          {/* Right: 40% visual - 9:16 portrait frame + stacked skills */}
           <motion.div
-            className="lg:col-span-2 relative flex justify-center items-center min-h-[500px]"
+            className="lg:col-span-2 relative flex flex-col items-center min-h-[500px] gap-6"
             variants={itemVariants}
           >
             {/* 9:16 aspect ratio frame - image covers */}
@@ -129,27 +127,23 @@ export default function About({ data }) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-space/80 to-transparent pointer-events-none" />
             </motion.div>
-
-            {/* Orbital skill icons */}
-            {skillIcons.map((skill, i) => {
-              const angle = (i / skillIcons.length) * 2 * Math.PI - Math.PI / 2
-              const radius = 160
-              const x = Math.cos(angle) * radius
-              const y = Math.sin(angle) * radius
-              return (
-                <motion.div
+            
+            {/* Stacked key skills – clean chips below the image */}
+            <motion.div
+              className="flex flex-wrap justify-center gap-3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.6 }}
+            >
+              {['SQL', 'Python', 'Power BI', 'SSMS', 'Figma', 'MERN'].map((skill) => (
+                <span
                   key={skill}
-                  className="absolute w-12 h-12 rounded-xl glass-neon flex items-center justify-center text-xs font-mono text-accent-cyan border border-accent-cyan/30"
-                  style={{ left: '50%', top: '50%', marginLeft: x - 24, marginTop: y - 24 }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.5 + i * 0.1, type: 'spring', stiffness: 200 }}
-                  whileHover={{ scale: 1.15, boxShadow: '0 0 25px rgba(100, 255, 218, 0.4)' }}
+                  className="px-4 py-1.5 rounded-full bg-white/80 dark:bg-space-light/80 border border-accent-cyan/30 text-xs font-mono text-slate-800 dark:text-slate-bright shadow-sm"
                 >
                   {skill}
-                </motion.div>
-              )
-            })}
+                </span>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </div>
