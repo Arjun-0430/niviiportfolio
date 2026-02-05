@@ -1,0 +1,49 @@
+{
+  "hash": "7e0d3b9e",
+  "configHash": "6552face",
+  "lockfileHash": "b84736d5",
+  "browserHash": "f1d53930",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "1da06d34",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "80954a5d",
+      "needsInterop": true
+    },
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "cb3a0b9a",
+      "needsInterop": false
+    },
+    "lenis/react": {
+      "src": "../../node_modules/lenis/dist/lenis-react.mjs",
+      "file": "lenis_react.js",
+      "fileHash": "2ee991b1",
+      "needsInterop": false
+    },
+    "ogl": {
+      "src": "../../node_modules/ogl/src/index.js",
+      "file": "ogl.js",
+      "fileHash": "5fad0d70",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-LVXL2XHP": {
+      "file": "chunk-LVXL2XHP.js"
+    },
+    "chunk-BHGA32AN": {
+      "file": "chunk-BHGA32AN.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}
