@@ -1,191 +1,143 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import ParticleField3D from './ParticleField3D'
-import LetterGlitch from './LetterGlitch'
-import TextScramble from './TextScramble'
+import MatrixBackground from './MatrixBackground'
 import TypeWriter from './TypeWriter'
+import RippleButton from './RippleButton'
 
-const Hero = ({ data }) => {
+function getSocialLinks(data) {
+  const c = data?.contact || {}
+  return [
+    { label: 'LinkedIn', href: c.linkedin || 'https://www.linkedin.com/in/nivethavenkatraman/', icon: 'in' },
+    { label: 'GitHub', href: c.github || 'https://github.com/nivetha3004', icon: 'gh' },
+    { label: 'Email', href: `mailto:${c.email || 'nivethavenkatraman48@gmail.com'}`, icon: 'mail' },
+  ]
+}
+
+export default function Hero({ data }) {
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100])
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const y = useTransform(scrollYProgress, [0, 1], [0, -80])
+  const opacity = useTransform(scrollYProgress, [0, 0.35], [1, 0])
 
   return (
-    <motion.section 
+    <motion.section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-apple-white via-blue-50/20 to-indigo-50/10 dark:from-apple-black dark:via-apple-gray/30 dark:to-apple-black"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-100 dark:bg-space transition-colors duration-300"
       style={{ y, opacity }}
     >
-      <LetterGlitch glitchSpeed={50} centerVignette={true} smooth={true} />
-      <ParticleField3D />
-      
-      {/* Subtle background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-apple-blue/5 to-transparent" />
+      {/* Background layers - blue accent */}
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-500/15 via-transparent to-blue-400/10 dark:from-blue-500/20 dark:to-blue-400/15" />
+      <MatrixBackground opacity={0.12} color="blue" />
 
-      <div className="relative z-10 text-center px-6 max-w-6xl">
-        {/* Advanced Text Animations */}
-        <motion.div className="mb-8 relative">
-          <motion.h1
-            className="text-7xl md:text-9xl font-display font-light text-apple-black dark:text-apple-white mb-4 relative z-10"
-            initial={{ opacity: 0, filter: 'blur(20px)' }}
-            animate={{ opacity: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <motion.span
-              initial={{ opacity: 0, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, filter: 'blur(0px)' }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Hi, I'm{' '}
-            </motion.span>
-            <motion.span 
-              className="gradient-text font-semibold relative inline-block"
-              initial={{ filter: 'blur(15px)' }}
-              animate={{ filter: 'blur(0px)' }}
-              transition={{ 
-                duration: 1.5,
-                delay: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94]
-              }}
-            >
-              Nivetha V.
-            </motion.span>
-          </motion.h1>
-          
-          {/* Background blur effect */}
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+        {/* Name: white text + letter glitch (light: white/blue, dark: black/white) */}
+        <motion.div
+          className="mb-6 relative hero-glitch-wrap text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold tracking-tight"
+          initial={{ opacity: 0, filter: 'blur(20px)' }}
+          animate={{ opacity: 1, filter: 'blur(0px)' }}
+          transition={{
+            opacity: { duration: 1.2, delay: 0.2 },
+            filter: { duration: 1, delay: 0.5 },
+          }}
+        >
+          <span className="glitch-layer-1" aria-hidden>NIVETHA V</span>
+          <span className="glitch-layer-2" aria-hidden>NIVETHA V</span>
+          <span className="hero-glitch-name block" data-text="NIVETHA V">
+            NIVETHA V
+          </span>
+          {/* Holographic scan line sweep */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-3xl blur-3xl"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ 
-              opacity: [0, 0.4, 0.2],
-              scale: [0.5, 1.5, 1.2]
-            }}
-            transition={{ duration: 2.5, delay: 1, ease: 'easeOut' }}
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-cyan/20 to-transparent h-24 pointer-events-none"
+            initial={{ y: '-100%' }}
+            animate={{ y: '200%' }}
+            transition={{ duration: 0.8, delay: 1.8, ease: 'easeInOut' }}
           />
         </motion.div>
 
-        {/* Professional Title */}
-        <motion.h2
-          className="text-3xl md:text-5xl font-display font-medium text-apple-black/80 dark:text-apple-white/80 mb-6 relative"
-          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ 
-            duration: 1, 
-            delay: 1.2,
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        >
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
-          >
-            {data.title}
-          </motion.span>
-          <motion.div
-            className="absolute -inset-2 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-lg blur-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.5, 0] }}
-            transition={{ duration: 2, delay: 1.8 }}
-          />
-        </motion.h2>
-
-        {/* Animated Tagline */}
-        <motion.p
-          className="text-xl md:text-2xl text-apple-black/60 dark:text-apple-white/60 mb-12 max-w-4xl mx-auto leading-relaxed font-light relative"
-          initial={{ opacity: 0, y: 20, filter: 'blur(5px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ 
-            duration: 1, 
-            delay: 2,
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        >
-          <TypeWriter 
-            text={data.tagline}
-            startDelay={2500}
-            speed={50}
-            showCursor={false}
-          />
-        </motion.p>
-
-        {/* Apple-style CTA Buttons */}
+        {/* Tagline: < SQL Developer /> with typewriter */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-          initial={{ opacity: 0, y: 30, filter: 'blur(3px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ 
-            duration: 1, 
-            delay: 2.2,
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
+          className="font-mono text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 2.2 }}
         >
-          <motion.a
-            href="#projects"
-            className="apple-button px-8 py-4 text-white rounded-lg font-medium text-lg apple-transition relative overflow-hidden"
-            initial={{ opacity: 0, filter: 'blur(2px)' }}
-            animate={{ opacity: 1, filter: 'blur(0px)' }}
-            transition={{ delay: 2.5, duration: 0.6 }}
-            whileHover={{ 
-              scale: 1.02,
-              boxShadow: '0 10px 30px rgba(0,122,255,0.3)'
-            }}
-            whileTap={{ scale: 0.98 }}
+          <span className="text-accent-cyan">&lt;</span>
+          <TypeWriter text={data?.title || 'SQL Developer'} startDelay={2500} speed={60} showCursor />
+          <span className="text-accent-cyan"> /&gt;</span>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 2.8 }}
+        >
+          <RippleButton
+            className="px-8 py-4 rounded-lg font-semibold text-space bg-accent-cyan text-space hover:bg-accent-cyan/90 transition-colors ripple-cyan"
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            rippleColor="rgba(10, 25, 47, 0.3)"
           >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-sm"
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            />
-            <span className="relative z-10">View Projects</span>
-          </motion.a>
-          
-          <motion.a
-            href={data.contact.resumePdf}
-            download
-            className="px-8 py-4 frosted-glass rounded-lg font-medium text-lg apple-transition border border-apple-black/10 dark:border-apple-white/10 relative overflow-hidden"
-            initial={{ opacity: 0, filter: 'blur(2px)' }}
-            animate={{ opacity: 1, filter: 'blur(0px)' }}
-            transition={{ delay: 2.7, duration: 0.6 }}
-            whileHover={{ 
-              scale: 1.02,
-              boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-            }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-white/10 dark:bg-white/5 blur-sm"
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            />
-            <span className="relative z-10">Download Resume</span>
-          </motion.a>
+            Explore My Work
+          </RippleButton>
+          {data?.contact?.resumePdf && (
+            <motion.a
+              href={`${import.meta.env.BASE_URL}${encodeURIComponent(data.contact.resumePdf)}`}
+              download
+              className="px-8 py-4 rounded-lg font-semibold border-2 border-accent-cyan/50 text-accent-cyan hover:bg-accent-cyan/10 transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Download Resume
+            </motion.a>
+          )}
+        </motion.div>
+
+        {/* Social links - stagger from sides */}
+        <motion.div
+          className="flex justify-center gap-6 mt-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.2, duration: 0.6 }}
+        >
+          {getSocialLinks(data).map((link, i) => (
+            <motion.a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-600 dark:text-slate hover:text-accent-cyan transition-colors text-sm font-medium"
+              initial={{ opacity: 0, x: i === 0 ? -20 : i === 2 ? 20 : 0 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 3.4 + i * 0.1 }}
+              whileHover={{ scale: 1.1, y: -2 }}
+              aria-label={link.label}
+            >
+              {link.icon === 'in' && 'LinkedIn'}
+              {link.icon === 'gh' && 'GitHub'}
+              {link.icon === 'mail' && 'Email'}
+            </motion.a>
+          ))}
         </motion.div>
       </div>
 
-      {/* Apple-style Scroll Indicator */}
+      {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
+        transition={{ delay: 3.5 }}
       >
         <motion.div
-          className="w-6 h-10 border-2 border-apple-black/20 dark:border-apple-white/20 rounded-full flex justify-center pt-2"
-          animate={{ y: [0, 8, 0] }}
+          className="w-6 h-10 border-2 border-accent-cyan/50 rounded-full flex justify-center pt-2"
+          animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <div className="w-1 h-3 bg-apple-blue rounded-full" />
+          <div className="w-1 h-2 bg-accent-cyan rounded-full" />
         </motion.div>
-        <p className="text-sm text-apple-black/50 dark:text-apple-white/50 font-light">
-          Scroll to explore
-        </p>
+        <p className="text-slate-500 dark:text-slate text-xs">Scroll to explore</p>
       </motion.div>
     </motion.section>
   )
 }
-
-export default Hero

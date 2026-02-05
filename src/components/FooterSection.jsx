@@ -1,99 +1,72 @@
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 
-const FooterSection = ({ data }) => {
+export default function FooterSection({ data }) {
+  const c = data?.contact || {}
+  const links = [
+    { label: 'LinkedIn', href: c.linkedin || 'https://www.linkedin.com/in/nivethavenkatraman/' },
+    { label: 'GitHub', href: c.github || 'https://github.com/nivetha3004' },
+    { label: 'Email', href: `mailto:${c.email || 'nivethavenkatraman48@gmail.com'}` },
+  ]
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
-    <footer className="py-16 px-6 bg-apple-black dark:bg-apple-black text-apple-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
-          {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-display font-semibold gradient-text mb-4">
-              Nivetha V
-            </h3>
-            <p className="text-apple-white/70 leading-relaxed">
-              SQL Developer & UI Technologist crafting data-driven solutions with precision and creativity.
-            </p>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-semibold mb-4 text-apple-white">Quick Links</h4>
-            <div className="space-y-2">
-              {['About', 'Skills', 'Experience', 'Projects', 'Contact'].map((link) => (
-                <motion.a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  className="block text-apple-white/70 hover:text-apple-blue apple-transition"
-                  whileHover={{ x: 5 }}
-                >
-                  {link}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-semibold mb-4 text-apple-white">Connect</h4>
-            <div className="space-y-3">
-              <a
-                href={`mailto:${data.contact.email}`}
-                className="flex items-center gap-3 text-apple-white/70 hover:text-apple-blue apple-transition"
-              >
-                <span>✉️</span>
-                <span>{data.contact.email}</span>
-              </a>
-              <a
-                href={data.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-apple-white/70 hover:text-apple-blue apple-transition"
-              >
-                <span>💼</span>
-                <span>GitHub</span>
-              </a>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Bottom Bar */}
-        <motion.div
-          className="pt-8 border-t border-apple-white/10 flex flex-col md:flex-row justify-between items-center gap-4"
+    <footer
+      ref={ref}
+      className="relative py-16 px-6 bg-slate-100 dark:bg-space border-t border-slate-200 dark:border-accent-cyan/10 transition-colors duration-300"
+    >
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-10" />
+      <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <motion.p
+          className="text-slate-600 dark:text-slate text-sm font-mono"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6 }}
         >
-          <p className="text-apple-white/60 text-sm">
-            © 2025 Nivetha V — Built with 💙 React + Framer Motion + AI
-          </p>
-          <div className="flex items-center gap-4 text-sm text-apple-white/60">
-            <span>Made with precision</span>
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              className="w-4 h-4 border border-apple-blue/50 rounded-full"
-            />
-          </div>
+          © 2025 Nivetha V
+        </motion.p>
+        <motion.div
+          className="flex justify-center gap-8 mt-6"
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2 }}
+        >
+          {links.map((link) => (
+            <motion.a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-600 dark:text-slate hover:text-accent-cyan transition-colors text-sm"
+              whileHover={{ y: -2 }}
+            >
+              {link.label}
+            </motion.a>
+          ))}
         </motion.div>
+        <motion.button
+          onClick={scrollToTop}
+          className="mt-8 inline-flex items-center gap-2 text-slate-600 dark:text-slate hover:text-accent-cyan transition-colors text-sm"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.4 }}
+          whileHover={{ y: -4 }}
+          aria-label="Back to top"
+        >
+          <span>Back to Top</span>
+          <motion.span
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            ↑
+          </motion.span>
+        </motion.button>
       </div>
     </footer>
   )
 }
-
-export default FooterSection

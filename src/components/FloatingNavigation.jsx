@@ -12,7 +12,8 @@ const FloatingNavigation = () => {
     { id: 'skills', label: 'Skills', href: '#skills' },
     { id: 'experience', label: 'Experience', href: '#experience' },
     { id: 'projects', label: 'Projects', href: '#projects' },
-    { id: 'contact', label: 'Contact', href: '#contact' }
+    { id: 'certifications', label: 'Certifications', href: '#certifications' },
+    { id: 'contact', label: 'Contact', href: '#contact' },
   ]
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -47,16 +48,16 @@ const FloatingNavigation = () => {
       }}
       transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      <div className="frosted-glass rounded-full px-6 py-3 shadow-lg">
-        <div className="flex items-center space-x-1">
+      <div className="glass-strong rounded-full px-4 py-2 border border-accent-cyan/20 shadow-xl">
+        <div className="flex flex-wrap items-center justify-center gap-1">
           {navItems.map((item) => (
             <motion.a
               key={item.id}
               href={item.href}
-              className={`px-4 py-2 rounded-full text-sm font-medium apple-transition ${
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeSection === item.id
-                  ? 'bg-apple-blue text-white'
-                  : 'text-apple-black/70 dark:text-apple-white/70 hover:text-apple-blue'
+                  ? 'bg-accent-cyan text-space'
+                  : 'text-slate hover:text-accent-cyan'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

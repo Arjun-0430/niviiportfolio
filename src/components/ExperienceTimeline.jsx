@@ -1,160 +1,146 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { useScrollReveal } from '../hooks/useScrollReveal'
-import SectionBackground from './SectionBackground'
-import MorphingCard from './MorphingCard'
+import SectionWrapper from './SectionWrapper'
 import CompanyLogo from './CompanyLogo'
-import SpiralTimeline from './SpiralTimeline'
+import { LocationIcon, ChevronRightIcon } from './Icons'
 
-const ExperienceTimeline = ({ data }) => {
-  const { ref, isInView, variants, itemVariants } = useScrollReveal()
+const companyLogos = {
+  'Photon Interactive Pvt Ltd': '/niviiportfolio/company-logos/photon.svg',
+  'VR Della Pvt Ltd': '/niviiportfolio/company-logos/vrdella.svg',
+  'Varutech Solutions Pvt Ltd': '/niviiportfolio/company-logos/varutech.svg',
+  'Core Idea Innovations': '/niviiportfolio/company-logos/core idea innovations.svg',
+}
+
+const gradientColors = [
+  'from-accent-cyan to-accent-purple',
+  'from-accent-purple to-pink-500',
+  'from-accent-cyan to-teal-500',
+  'from-accent-purple to-accent-cyan',
+]
+
+const roleIcons = ['⚡', '🎨', '🗄️', '🖥️']
+
+export default function ExperienceTimeline({ data }) {
   const timelineRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: timelineRef,
-    offset: ['start end', 'end start']
+    offset: ['start center', 'end center'],
   })
-  
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
-  
-  // Safety check for data
-  if (!data || !data.experience || !Array.isArray(data.experience)) {
-    return null
-  }
-  
-  const companyLogos = {
-    'Photon Interactive Pvt Ltd': '/niviiportfolio/company-logos/photon.svg',
-    'VR Della Pvt Ltd': '/niviiportfolio/company-logos/vrdella.svg',
-    'Varutech Solutions Pvt Ltd': '/niviiportfolio/company-logos/varutech.svg',
-    'Core Idea Innovations': '/niviiportfolio/company-logos/core idea innovations.svg'
-  }
+
+  if (!data?.experience?.length) return null
 
   return (
-    <motion.section
+    <SectionWrapper
       id="experience"
-      ref={ref}
-      className="py-24 px-6 bg-apple-white dark:bg-apple-black relative"
-      variants={variants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      title="Professional Experience"
+      subtitle="Journey through data"
+      className="bg-slate-50/80 dark:bg-space relative overflow-hidden"
     >
-      <SectionBackground type="experience" />
-      <div className="max-w-5xl mx-auto">
-        {/* Section Header */}
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-20 dark:opacity-25" />
+      <div ref={timelineRef} className="relative z-10 max-w-4xl mx-auto">
+        {/* Central track */}
+        <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate/30 -translate-x-1/2 rounded-full" />
         <motion.div
-          className="text-center mb-20"
-          variants={itemVariants}
-        >
-          <h2 className="text-5xl lg:text-6xl font-display font-light text-apple-black dark:text-apple-white mb-6">
-            Professional Experience
-          </h2>
-          <p className="text-xl text-apple-black/60 dark:text-apple-white/60 font-light">
-            Building expertise through hands-on experience
-          </p>
-        </motion.div>
+          className="absolute left-6 md:left-1/2 top-0 w-0.5 -translate-x-1/2 origin-top rounded-full bg-gradient-to-b from-accent-cyan via-accent-purple to-accent-cyan shadow-[0_0_12px_rgba(100,255,218,0.4)]"
+          style={{ height: lineHeight }}
+        />
 
-        {/* Enhanced Animated Timeline */}
-        <div ref={timelineRef} className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-apple-black/20 dark:bg-apple-white/20" />
-          
-          {/* Animated Progress Line */}
-          <motion.div
-            className="absolute left-8 md:left-1/2 top-0 w-0.5 bg-gradient-to-b from-apple-blue to-blue-600 origin-top"
-            style={{ height: lineHeight }}
-          />
-
-          {data.experience.map((exp, index) => (
-            <SpiralTimeline 
-              key={index} 
-              index={index} 
-              totalItems={data.experience.length}
+        {data.experience.map((exp, index) => {
+          const isLeft = index % 2 === 0
+          const gradient = gradientColors[index % gradientColors.length]
+          const icon = roleIcons[index % roleIcons.length]
+          return (
+            <motion.div
+              key={`${exp.company}-${index}`}
+              className={`relative flex items-start gap-8 mb-16 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+              initial={{ opacity: 0, x: isLeft ? -60 : 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true, margin: '-50px' }}
             >
-                <MorphingCard 
-                  morphColor="from-blue-400 to-purple-500"
-                  className="h-full"
-                >
+              {/* Timeline node with pulse */}
+              <motion.div
+                className="absolute left-6 md:left-1/2 -translate-x-1/2 z-10 shrink-0 flex items-center justify-center"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ delay: index * 0.1 + 0.2, type: 'spring', stiffness: 200 }}
+                viewport={{ once: true }}
+              >
+                <motion.div
+                  className="absolute w-6 h-6 rounded-full bg-accent-cyan/30"
+                  animate={{ scale: [1, 1.8, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+                <div className="relative w-5 h-5 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple border-2 border-white dark:border-space shadow-lg" />
+              </motion.div>
 
-                  
-                  {/* Role & Company */}
-                  <div className="mb-4 relative z-10">
-                    <motion.h3 
-                      className="text-2xl font-display font-semibold text-apple-black dark:text-apple-white mb-2"
-                      whileHover={{ x: 5 }}
-                    >
-                      {exp.role}
-                    </motion.h3>
-                    <motion.div 
-                      className="text-apple-blue font-medium text-lg mb-1 flex items-center justify-between"
-                      whileHover={{ x: 5 }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-apple-blue rounded-full animate-pulse" />
-                        {exp.company}
+              {/* Card with gradient border */}
+              <div className={`ml-14 md:ml-0 ${isLeft ? 'md:pr-16' : 'md:pl-16'} w-full md:w-[calc(50%-2rem)]`}>
+                <motion.div
+                  className="group relative rounded-2xl p-[1px] bg-gradient-to-r from-accent-cyan/50 via-accent-purple/50 to-accent-cyan/50 dark:from-accent-cyan/40 dark:via-accent-purple/40 dark:to-accent-cyan/40 shadow-xl"
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="rounded-2xl bg-white/90 dark:bg-space-light/95 backdrop-blur p-6 md:p-8 border border-slate-200/50 dark:border-accent-cyan/10 transition-colors group-hover:border-accent-cyan/25">
+                    <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                      <div className="flex gap-3">
+                        <span className="text-2xl opacity-90">{icon}</span>
+                        <div>
+                          <h3 className="text-xl font-display font-semibold text-slate-800 dark:text-slate-bright">
+                            {exp.role}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-1 text-accent-cyan font-medium">
+                            <span className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
+                            {exp.company}
+                          </div>
+                          <p className="text-slate-500 dark:text-slate text-sm mt-1 flex items-center gap-1">
+                            <LocationIcon className="w-4 h-4 inline" /> {exp.location} · <span className="font-mono text-xs">{exp.period}</span>
+                          </p>
+                        </div>
                       </div>
-                      {/* Enhanced Company Logo */}
                       {companyLogos[exp.company] && (
                         <CompanyLogo
                           src={companyLogos[exp.company]}
                           alt={exp.company}
-                          size="w-40 h-40"
+                          size="w-16 h-16 md:w-20 md:h-20"
                         />
                       )}
-                    </motion.div>
-                    <p className="text-apple-black/60 dark:text-apple-white/60 text-sm">
-                      📍 {exp.location} • 📅 {exp.period}
-                    </p>
-                  </div>
-
-                  {/* Interactive Achievement Bubbles */}
-                  <div className="space-y-4 relative z-10">
-                    {exp.bullets && exp.bullets.map((bullet, bulletIndex) => (
-                      <motion.div
-                        key={bulletIndex}
-                        className="group relative"
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ 
-                          delay: bulletIndex * 0.2, 
-                          type: 'spring',
-                          stiffness: 200
-                        }}
+                    </div>
+                    <ul className="space-y-3 mt-5">
+                      {exp.bullets?.slice(0, 5).map((bullet, i) => (
+                        <motion.li
+                          key={i}
+                          className="flex gap-3 text-slate-600 dark:text-slate-light text-sm leading-relaxed pl-1"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.08 * i }}
+                          viewport={{ once: true }}
+                        >
+                          <ChevronRightIcon className="text-accent-cyan shrink-0 mt-0.5 w-4 h-4" />
+                          {bullet}
+                        </motion.li>
+                      ))}
+                    </ul>
+                    {index === 0 && (
+                      <motion.span
+                        className="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 rounded-full text-xs font-medium bg-accent-cyan/15 dark:bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
                         viewport={{ once: true }}
                       >
-                        <div className="flex items-start gap-4 p-4 rounded-2xl bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md border border-white/30">
-                          {/* Static Icon */}
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold">
-                            {bulletIndex + 1}
-                          </div>
-                          
-                          {/* Achievement Text */}
-                          <span className="leading-relaxed text-apple-black/90 dark:text-apple-white/90 flex-1">
-                            {bullet}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ))}
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
+                        Most Recent
+                      </motion.span>
+                    )}
                   </div>
-
-                  {/* Highlight Badge */}
-                  {index === 0 && (
-                    <motion.div
-                      className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-apple-blue/10 text-apple-blue rounded-full text-sm font-medium"
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5, type: 'spring' }}
-                      viewport={{ once: true }}
-                    >
-                      <span className="w-2 h-2 bg-apple-blue rounded-full animate-pulse" />
-                      Most Recent
-                    </motion.div>
-                  )}
-                </MorphingCard>
-            </SpiralTimeline>
-          ))}
-        </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
-    </motion.section>
+    </SectionWrapper>
   )
 }
-
-export default ExperienceTimeline

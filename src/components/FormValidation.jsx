@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { CheckIcon, XIcon } from './Icons'
 
 const FormValidation = ({ 
   value, 
@@ -62,15 +63,20 @@ const FormValidation = ({
       >
         {/* Animated Icon */}
         <motion.div
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-xl z-10"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10"
           animate={{
             scale: isFocused ? 1.2 : 1,
             rotate: isFocused ? [0, 10, -10, 0] : 0,
-            color: !isValid ? '#ef4444' : isFocused ? '#3b82f6' : '#6b7280'
           }}
           transition={{ duration: 0.3 }}
         >
-          {icon}
+          {typeof icon === 'function' ? (
+            <icon className={`w-5 h-5 transition-colors ${
+              !isValid ? 'text-red-500' : isFocused ? 'text-blue-500 dark:text-accent-cyan' : 'text-slate-500 dark:text-slate-400'
+            }`} />
+          ) : (
+            <span className="text-xl">{icon}</span>
+          )}
         </motion.div>
 
         {/* Input Field */}
@@ -108,9 +114,11 @@ const FormValidation = ({
             <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
               isValid ? 'bg-green-500' : 'bg-red-500'
             }`}>
-              <span className="text-white text-sm">
-                {isValid ? '✓' : '✗'}
-              </span>
+              {isValid ? (
+                <CheckIcon className="w-4 h-4 text-white" />
+              ) : (
+                <XIcon className="w-4 h-4 text-white" />
+              )}
             </div>
           )}
         </motion.div>

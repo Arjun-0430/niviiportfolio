@@ -63,20 +63,20 @@ html {
 }
 
 body {
-  font-family: 'Inter', '-apple-system', 'system-ui', sans-serif;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 154, 158, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(254, 207, 239, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 236, 210, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  background-size: 800% 800%, 600% 600%, 400% 400%, 100% 100%;
-  animation: subtleShift 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-  color: #0A0A0A;
+  background: #f1f5f9;
+  color: #0f172a;
   position: relative;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+html.dark body {
+  background: #0a192f;
+  color: #e6f1ff;
 }
 
 body::before {
@@ -121,9 +121,9 @@ body::after {
   z-index: 1;
 }
 
-.dark body {
-  background: #0A0A0A;
-  color: #F9FAFB;
+html.dark body {
+  background: #0a192f;
+  color: #e6f1ff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -151,31 +151,45 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(17, 34, 64, 0.6);
   backdrop-filter: blur(30px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(100, 255, 218, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateZ(0);
 }
 
-.dark .glass-strong {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.dark .glass-strong,
+.glass-strong {
+  background: rgba(17, 34, 64, 0.6);
+  border: 1px solid rgba(100, 255, 218, 0.15);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   transform: translateZ(0);
 }
 
-/* Apple-style gradient text */
+/* Neon border glow */
+.glass-neon {
+  background: rgba(17, 34, 64, 0.5);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  box-shadow: 0 0 30px rgba(100, 255, 218, 0.1);
+}
+.glass-neon:hover {
+  border-color: rgba(100, 255, 218, 0.4);
+  box-shadow: 0 0 40px rgba(100, 255, 218, 0.2);
+}
+
+/* Portfolio gradient text - Electric Cyan / Purple */
 .gradient-text {
-  background: linear-gradient(135deg, #007AFF 0%, #0A84FF 100%);
+  background: linear-gradient(135deg, #64ffda 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.dark .gradient-text {
-  background: linear-gradient(135deg, #0A84FF 0%, #007AFF 100%);
+.dark .gradient-text,
+.gradient-text {
+  background: linear-gradient(135deg, #64ffda 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -452,17 +466,17 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Apple color utilities */
-.bg-apple-black { background-color: #0A0A0A; }
+/* Portfolio color utilities */
+.bg-apple-black { background-color: #0a192f; }
 .bg-apple-white { 
-  background: rgba(249, 250, 251, 0.95);
+  background: rgba(230, 241, 255, 0.05);
   backdrop-filter: blur(20px);
 }
-.bg-apple-gray { background-color: #1C1C1E; }
-.bg-apple-blue { background-color: #007AFF; }
-.text-apple-white { color: #F9FAFB; }
-.text-apple-black { color: #0A0A0A; }
-.text-apple-blue { color: #007AFF; }
+.bg-apple-gray { background-color: #112240; }
+.bg-apple-blue { background-color: #64ffda; }
+.text-apple-white { color: #e6f1ff; }
+.text-apple-black { color: #0a192f; }
+.text-apple-blue { color: #64ffda; }
 
 /* Radial gradient utility */
 .bg-gradient-radial {
@@ -573,6 +587,101 @@ h1, h2, h3, h4, h5, h6 {
 
 .morph-card:hover::after {
   left: 100%;
+}
+
+/* Hero letter glitch: light = white + blue, dark = black + white; name in white */
+.hero-glitch-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-glitch-name {
+  position: relative;
+  color: #ffffff;
+  text-shadow: 
+    0 0 20px rgba(100, 255, 218, 0.25),
+    0 0 40px rgba(100, 255, 218, 0.15);
+  z-index: 1;
+}
+
+html:not(.dark) .hero-glitch-name {
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.hero-glitch-name::before,
+.hero-glitch-name::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  animation: glitch-slide 3s ease-in-out infinite;
+}
+
+.hero-glitch-name::after {
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  animation-delay: -1.5s;
+}
+
+/* Light mode: white and blue glitch layers */
+.hero-glitch-wrap .glitch-layer-1,
+.hero-glitch-wrap .glitch-layer-2 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-glitch-wrap .glitch-layer-1 {
+  color: rgba(255, 255, 255, 0.8);
+  animation: glitch-offset-1 2.5s ease-in-out infinite;
+  z-index: 0;
+}
+
+.hero-glitch-wrap .glitch-layer-2 {
+  color: rgba(59, 130, 246, 0.9);
+  animation: glitch-offset-2 2.5s ease-in-out infinite;
+  z-index: 0;
+}
+
+html.dark .hero-glitch-wrap .glitch-layer-1 {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+html.dark .hero-glitch-wrap .glitch-layer-2 {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@keyframes glitch-offset-1 {
+  0%, 90%, 100% { transform: translate(0, 0); opacity: 0.7; }
+  92% { transform: translate(-2px, 1px); opacity: 1; }
+  94% { transform: translate(2px, -1px); opacity: 1; }
+  96% { transform: translate(-1px, 2px); opacity: 1; }
+  98% { transform: translate(1px, -2px); opacity: 1; }
+}
+
+@keyframes glitch-offset-2 {
+  0%, 90%, 100% { transform: translate(0, 0); opacity: 0.6; }
+  93% { transform: translate(2px, -2px); opacity: 1; }
+  95% { transform: translate(-2px, 2px); opacity: 1; }
+  97% { transform: translate(1px, 1px); opacity: 1; }
+  99% { transform: translate(-1px, -1px); opacity: 1; }
+}
+
+@keyframes glitch-slide {
+  0%, 85%, 100% { transform: translate(0, 0); }
+  87% { transform: translate(-1px, 0); }
+  89% { transform: translate(1px, 0); }
+  91% { transform: translate(0, 0); }
 }
 
 

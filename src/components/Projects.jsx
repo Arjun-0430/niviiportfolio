@@ -1,328 +1,211 @@
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import CardStack from './CardStack'
-import ImageReveal from './ImageReveal'
-import FloatingElements from './FloatingElements'
+import SectionWrapper from './SectionWrapper'
+import GlowCard from './GlowCard'
+import { ChevronRightIcon } from './Icons'
 
-const Projects = ({ data }) => {
-  const { ref, isInView, variants, itemVariants } = useScrollReveal()
-  const [hoveredProject, setHoveredProject] = useState(null)
-  const [expandedProject, setExpandedProject] = useState(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -50])
-
-  const projectImages = {
-    'SQL + Power BI': '/niviiportfolio/project-images/dashboard.svg',
-    'MERN Stack + SQL': '/niviiportfolio/project-images/inventory.svg',
-    'Figma + Flutterflow': '/niviiportfolio/project-images/portfolio.svg'
-  }
-  
-  const projectColors = [
-    'from-blue-500 to-purple-600',
-    'from-green-500 to-teal-600', 
-    'from-pink-500 to-rose-600'
-  ]
-
-  return (
-    <motion.section 
-      id="projects" 
-      ref={ref} 
-      className="py-32 px-6 relative overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50/10 to-purple-50/5 dark:from-slate-900 dark:via-slate-800/10 dark:to-slate-900"
-      variants={variants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-    >
-      {/* Cinematic Background */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-primary-50/20 via-accent-50/30 to-primary-100/20 dark:from-neutral-800 dark:via-neutral-700/30 dark:to-neutral-800"
-        style={{ y: backgroundY }}
-      />
-      
-      <FloatingElements 
-        elements={['⚡', '🚀', '💎', '🔮', '✨', '🎯', '🌟', '💫']}
-        count={15}
-      />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Enhanced Header */}
-        <motion.div
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 100 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1 }}
-        >
-          <motion.h2
-            className="text-6xl lg:text-8xl font-display font-bold gradient-text mb-6"
-            animate={{
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-            }}
-            transition={{ duration: 6, repeat: Infinity }}
-          >
-            Featured Projects
-          </motion.h2>
-          <motion.div 
-            className="w-32 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto mb-6 rounded-full"
-            initial={{ width: 0 }}
-            animate={isInView ? { width: 128 } : {}}
-            transition={{ duration: 1, delay: 0.5 }}
-          />
-          <motion.p 
-            className="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.7 }}
-          >
-            Showcasing innovation through data-driven solutions and creative design
-          </motion.p>
-        </motion.div>
-
-        {/* Project Grid with Cinematic Effects */}
-        <div className="grid lg:grid-cols-3 gap-10">
-          {data.projects.map((project, idx) => (
-            <motion.div
-              key={project.name}
-              className="group relative"
-              initial={{ opacity: 0, y: 100, rotateX: -20 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-              transition={{ 
-                duration: 1, 
-                delay: idx * 0.3,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15
-              }}
-              onHoverStart={() => setHoveredProject(idx)}
-              onHoverEnd={() => setHoveredProject(null)}
-            >
-              <CardStack 
-                stackOffset={6}
-                hoverLift={15}
-                className="h-full"
-              >
-                <div className="glass-strong rounded-3xl p-8 h-full relative overflow-hidden">
-                {/* Dynamic Background */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${projectColors[idx]} opacity-0 group-hover:opacity-10 rounded-3xl`}
-                  transition={{ duration: 0.4 }}
-                />
-                
-                {/* Project Image */}
-                <div className="relative z-10 mb-8">
-                  <motion.div
-                    className="mb-4"
-                    animate={{
-                      scale: hoveredProject === idx ? 1.1 : 1,
-                      rotate: hoveredProject === idx ? [0, 2, -2, 0] : 0
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <img 
-                      src={projectImages[project.type] || '/niviiportfolio/project-images/dashboard.svg'}
-                      alt={project.name}
-                      className="w-20 h-20 object-contain"
-                    />
-                  </motion.div>
-                  <motion.div
-                    className={`w-16 h-1 bg-gradient-to-r ${projectColors[idx]} rounded-full`}
-                    initial={{ width: 0 }}
-                    animate={isInView ? { width: 64 } : {}}
-                    transition={{ duration: 0.8, delay: idx * 0.2 + 0.5 }}
-                  />
-                </div>
-                
-                {/* Content */}
-                <div className="relative z-10 space-y-4">
-                  <motion.h3 
-                    className="text-2xl font-display font-bold leading-tight"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: idx * 0.2 + 0.3 }}
-                  >
-                    {project.name}
-                  </motion.h3>
-                  
-                  <motion.span 
-                    className={`inline-block px-4 py-2 bg-gradient-to-r ${projectColors[idx]} text-white rounded-full text-sm font-medium`}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: idx * 0.2 + 0.5, type: 'spring' }}
-                  >
-                    {project.type}
-                  </motion.span>
-                  
-                  <motion.p 
-                    className="text-neutral-700 dark:text-neutral-300 leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ delay: idx * 0.2 + 0.7 }}
-                  >
-                    {project.summary}
-                  </motion.p>
-                  
-                  {/* Interactive Elements */}
-                  <motion.div 
-                    className="flex items-center gap-4 pt-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: idx * 0.2 + 0.9 }}
-                  >
-                    <motion.button
-                      className="flex items-center gap-2 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setExpandedProject(expandedProject === idx ? null : idx)}
-                    >
-                      <span>{expandedProject === idx ? 'Hide Details' : 'View Details'}</span>
-                      <motion.span
-                        animate={{ 
-                          x: hoveredProject === idx ? 5 : 0,
-                          rotate: expandedProject === idx ? 90 : 0
-                        }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        →
-                      </motion.span>
-                    </motion.button>
-                  </motion.div>
-
-                    {/* Tech Stack */}
-                    {project.tech && (
-                      <motion.div 
-                        className="flex flex-wrap gap-2 mt-4"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ delay: idx * 0.2 + 1.1 }}
-                      >
-                        {project.tech.map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded-lg text-sm"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </motion.div>
-                    )}
-
-                    {/* Highlights */}
-                    {project.highlights && (
-                      <motion.div 
-                        className="mt-4"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ delay: idx * 0.2 + 1.3 }}
-                      >
-                        <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">
-                          Key Features:
-                        </p>
-                        <ul className="space-y-1">
-                          {project.highlights.map((highlight, highlightIndex) => (
-                            <li
-                              key={highlightIndex}
-                              className="text-sm text-neutral-600 dark:text-neutral-400 flex items-center gap-2"
-                            >
-                              <span className="w-1 h-1 bg-primary-500 rounded-full" />
-                              {highlight}
-                            </li>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    )}
-
-                    {/* Expanded Details */}
-                    <AnimatePresence>
-                      {expandedProject === idx && project.details && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                          className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700"
-                        >
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-2 mb-4">
-                              <span className="text-sm font-medium text-primary-500">
-                                {project.category}
-                              </span>
-                              <span className="w-1 h-1 bg-neutral-400 rounded-full" />
-                              <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                                {project.type}
-                              </span>
-                            </div>
-                            
-                            <div>
-                              <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3">
-                                Project Details
-                              </h4>
-                              <ul className="space-y-2">
-                                {project.details.description.map((detail, detailIndex) => (
-                                  <motion.li
-                                    key={detailIndex}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: detailIndex * 0.1 }}
-                                    className="text-sm text-neutral-700 dark:text-neutral-300 flex items-start gap-3"
-                                  >
-                                    <span className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0" />
-                                    {detail}
-                                  </motion.li>
-                                ))}
-                              </ul>
-                            </div>
-                            
-                            <div className="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-xl p-4">
-                              <h4 className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-2">
-                                Outcome
-                              </h4>
-                              <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                                {project.details.outcome}
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                </div>
-                
-                {/* Hover Particles */}
-                {hoveredProject === idx && Array.from({ length: 8 }).map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-1 h-1 bg-white/80 rounded-full"
-                    style={{
-                      left: `${20 + i * 10}%`,
-                      top: `${30 + i * 8}%`,
-                    }}
-                    animate={{
-                      y: [0, -40, 0],
-                      opacity: [0, 1, 0],
-                      scale: [0, 1.5, 0],
-                    }}
-                    transition={{
-                      duration: 2,
-                      delay: i * 0.1,
-                      repeat: Infinity,
-                    }}
-                  />
-                ))}
-                </div>
-              </CardStack>
-              
-              {/* Reflection Effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent rounded-3xl pointer-events-none"
-                animate={{
-                  opacity: hoveredProject === idx ? 0.3 : 0
-                }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.section>
-  )
+const projectImages = {
+  'SQL + Power BI': '/niviiportfolio/project-images/dashboard.svg',
+  'MERN Stack + SQL': '/niviiportfolio/project-images/inventory.svg',
+  'Figma + Flutterflow': '/niviiportfolio/project-images/portfolio.svg',
 }
 
-export default Projects
+const FILTERS = ['All', 'SQL Projects', 'Web Dev', 'Data Analysis']
+
+const cardColors = [
+  'from-accent-cyan to-accent-purple',
+  'from-accent-purple to-pink-500',
+  'from-accent-cyan to-teal-500',
+]
+
+function getCategory(type) {
+  if (!type) return 'Other'
+  if (type.includes('SQL') || type.includes('Power BI')) return 'SQL Projects'
+  if (type.includes('MERN') || type.includes('Figma')) return 'Web Dev'
+  if (type.includes('Data') || type.includes('Power BI')) return 'Data Analysis'
+  return 'Other'
+}
+
+export default function Projects({ data }) {
+  const [filter, setFilter] = useState('All')
+  const [modalProject, setModalProject] = useState(null)
+  const { ref, isInView } = useScrollReveal(0.08, true)
+
+  const projects = data?.projects || []
+  const filtered =
+    filter === 'All'
+      ? projects
+      : projects.filter((p) => getCategory(p.type) === filter)
+
+  return (
+    <>
+      <SectionWrapper
+        id="projects"
+        title="Featured Projects"
+        subtitle="Data-driven solutions and creative design"
+        className="bg-slate-50 dark:bg-space relative overflow-hidden transition-colors duration-300"
+      >
+        <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-20" />
+        <div ref={ref} className="relative z-10 max-w-6xl mx-auto">
+          <motion.div
+            className="flex flex-wrap justify-center gap-2 mb-12"
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+          >
+            {FILTERS.map((f) => (
+              <motion.button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-5 py-2.5 rounded-full font-medium text-sm transition-colors ${
+                  filter === f
+                    ? 'bg-accent-cyan text-space'
+                    : 'text-slate-600 dark:text-slate border border-slate-300 dark:border-slate/40 hover:border-accent-cyan/50'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {f}
+              </motion.button>
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            layout
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={{
+              visible: { transition: { staggerChildren: 0.08 } },
+              hidden: {},
+            }}
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((project, idx) => (
+                <motion.div
+                  key={project.name}
+                  layout
+                  variants={{
+                    hidden: { opacity: 0, y: 40, scale: 0.95 },
+                    visible: { opacity: 1, y: 0, scale: 1 },
+                  }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                  className="group"
+                >
+                  <GlowCard
+                    glowColor={cardColors[idx % cardColors.length]}
+                    hoverScale={1.03}
+                    className="h-full"
+                  >
+                    <div
+                      className="p-6 h-full flex flex-col cursor-pointer"
+                      onClick={() => setModalProject(project)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => e.key === 'Enter' && setModalProject(project)}
+                    >
+                      <div className="mb-4">
+                        <img
+                          src={projectImages[project.type] || projectImages['SQL + Power BI']}
+                          alt={project.name}
+                          className="w-16 h-16 object-contain group-hover:scale-110 transition-transform"
+                        />
+                      </div>
+                      <h3 className="text-xl font-display font-semibold text-slate-800 dark:text-slate-800 dark:text-slate-bright mb-2 group-hover:text-accent-cyan transition-colors">
+                        {project.name}
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate text-sm mb-4 flex-1 line-clamp-3">
+                        {project.summary}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech?.slice(0, 3).map((t) => (
+                          <span
+                            key={t}
+                            className="px-2 py-1 rounded bg-white/10 dark:bg-white/5 text-slate-600 dark:text-slate text-xs font-mono"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="mt-4 flex gap-2">
+                        <span className="text-accent-cyan text-sm font-medium">
+                          View Details →
+                        </span>
+                      </div>
+                    </div>
+                  </GlowCard>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+      </SectionWrapper>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {modalProject && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-space/90 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setModalProject(null)}
+          >
+            <motion.div
+              className="glass-strong rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 border border-accent-cyan/20"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h3 className="text-2xl font-display font-bold text-slate-800 dark:text-slate-bright">
+                    {modalProject.name}
+                  </h3>
+                  <p className="text-accent-cyan font-medium">{modalProject.type}</p>
+                  <p className="text-slate-600 dark:text-slate text-sm">{modalProject.category}</p>
+                </div>
+                <motion.button
+                  className="text-slate-600 dark:text-slate hover:text-accent-cyan text-2xl p-2"
+                  onClick={() => setModalProject(null)}
+                  whileHover={{ rotate: 90 }}
+                  aria-label="Close"
+                >
+                  ×
+                </motion.button>
+              </div>
+              <p className="text-slate-600 dark:text-slate-light mb-6">{modalProject.summary}</p>
+              {modalProject.details?.description && (
+                <ul className="space-y-2 mb-6">
+                  {modalProject.details.description.map((d, i) => (
+                    <li key={i} className="flex gap-2 text-slate-600 dark:text-slate-light text-sm">
+                      <ChevronRightIcon className="text-accent-cyan w-4 h-4" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {modalProject.details?.outcome && (
+                <p className="text-accent-cyan/90 text-sm mb-6 p-4 rounded-lg bg-accent-cyan/10">
+                  {modalProject.details.outcome}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2">
+                {modalProject.tech?.map((t) => (
+                  <span
+                    key={t}
+                    className="px-3 py-1 rounded-lg bg-white/10 dark:bg-white/5 text-slate-600 dark:text-slate text-sm"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}

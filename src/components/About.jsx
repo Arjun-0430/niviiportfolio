@@ -1,201 +1,158 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useCountUp } from '../hooks/useCountUp'
+import GlowCard from './GlowCard'
 
-const About = ({ data }) => {
-  const { ref, isInView, variants, itemVariants } = useScrollReveal()
-  const [isHovered, setIsHovered] = useState(false)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50])
+const skillIcons = ['SQL', 'Python', 'JS', 'Power BI', 'Figma']
 
-  const aboutWords = data.about.split(' ')
+export default function About({ data }) {
+  const { ref: revealRef, isInView, variants, itemVariants } = useScrollReveal(0.1, true)
+  const { scrollYProgress } = useScroll({ target: revealRef, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], [30, -30])
+
+  const certs = useCountUp(6, 1800, isInView)
+  const projects = useCountUp(5, 1800, isInView)
+  const techs = useCountUp(15, 2200, isInView)
+
+  const about = data?.about || ''
+  const paragraphs = about.split(/(?<=\.)\s+/).filter(Boolean)
+
+  const highlightTerms = ['SQL', 'Python', 'Power BI', 'MERN', 'Figma', 'Flutterflow']
+  const highlight = (text) => {
+    let result = text
+    highlightTerms.forEach((term) => {
+      result = result.replace(
+        new RegExp(`(${term})`, 'gi'),
+        '<span class="text-accent-cyan font-semibold">$1</span>'
+      )
+    })
+    return result
+  }
 
   return (
-    <motion.section 
-      id="about" 
-      ref={ref} 
-      className="py-32 px-6 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/10 dark:from-slate-900 dark:via-slate-800/20 dark:to-slate-900"
+    <motion.section
+      id="about"
+      ref={revealRef}
+      className="py-24 md:py-32 px-6 relative overflow-hidden bg-slate-50 dark:bg-space transition-colors duration-300"
       variants={variants}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={isInView ? 'visible' : 'hidden'}
     >
-      {/* Animated Background */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-indigo-50/20 to-purple-50/10 dark:from-slate-800/30 dark:via-slate-700/20 dark:to-slate-800/10"
-        style={{ y: y }}
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-30" />
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-accent-purple/5 to-transparent"
+        style={{ y }}
       />
-      
-      {/* Floating Elements */}
-      {Array.from({ length: 6 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-20 h-20 rounded-full opacity-10"
-          style={{
-            background: `radial-gradient(circle, ${['rgba(14, 165, 233, 0.1)', 'rgba(168, 85, 247, 0.1)', 'rgba(59, 130, 246, 0.1)'][i % 3]}, transparent)`,
-            left: `${10 + i * 15}%`,
-            top: `${20 + i * 10}%`,
-          }}
-          animate={{
-            y: [0, -50, 0],
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 8 + i * 2,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Enhanced Photo Card */}
-          <motion.div
-            className="relative group"
-            variants={itemVariants}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-          >
-            <motion.div
-              className="glass-strong rounded-3xl p-8 shadow-2xl"
-              style={{ perspective: '1000px' }}
-              initial={{ rotateY: -15, rotateX: 10 }}
-              animate={{ rotateY: -8, rotateX: 5 }}
-              whileHover={{ 
-                rotateY: 8, 
-                rotateX: -5, 
-                scale: 1.05,
-                boxShadow: '0 40px 100px rgba(0, 122, 255, 0.4)'
-              }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
-              <motion.div 
-                className="aspect-[3/4] bg-gradient-to-br from-primary-400 via-accent-400 to-primary-500 dark:from-primary-600 dark:via-accent-600 dark:to-primary-700 rounded-2xl flex items-center justify-center relative overflow-hidden p-2"
+        <div className="grid lg:grid-cols-5 gap-16 items-center">
+          {/* Left: 60% content */}
+          <div className="lg:col-span-3 space-y-8">
+            <motion.div variants={itemVariants}>
+              <motion.h2
+                className="text-4xl md:text-5xl font-display font-bold text-slate-800 dark:text-slate-bright mb-2 inline-block"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6 }}
               >
-                <motion.img
-                  src="/niviiportfolio/nivii.jpg"
-                  alt="Nivetha V"
-                  className="w-full h-full object-fill rounded-xl"
-                  animate={{ 
-                    scale: isHovered ? 1.05 : 1
-                  }}
-                  transition={{ duration: 0.5 }}
-                  loading="lazy"
-                />
-                
-                {/* Floating Particles */}
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-2 h-2 bg-white/50 rounded-full"
-                    style={{
-                      left: `${20 + i * 10}%`,
-                      top: `${30 + i * 8}%`,
-                    }}
-                    animate={{
-                      y: [0, -20, 0],
-                      opacity: [0.3, 0.8, 0.3],
-                      scale: [1, 1.5, 1],
-                    }}
-                    transition={{
-                      duration: 3 + i * 0.5,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                    }}
-                  />
-                ))}
-              </motion.div>
-              
-              {/* Enhanced Info Tags */}
-              <motion.div 
-                className="mt-8 flex flex-wrap gap-3 justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.5, staggerChildren: 0.1 }}
-              >
-                <motion.span 
-                  className="px-6 py-3 bg-primary-100 dark:bg-primary-800 text-primary-800 dark:text-primary-200 rounded-full text-sm font-medium glass backdrop-blur-sm"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                >
-                  📍 {data.location}
-                </motion.span>
-                {data.languages.map((lang, i) => (
-                  <motion.span 
-                    key={lang} 
-                    className="px-6 py-3 bg-accent-100 dark:bg-accent-800 text-accent-800 dark:text-accent-200 rounded-full text-sm font-medium glass backdrop-blur-sm"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.7 + i * 0.1, type: 'spring' }}
-                  >
-                    🗣️ {lang}
-                  </motion.span>
-                ))}
-              </motion.div>
+                About Me
+              </motion.h2>
+              <motion.div
+                className="h-1 w-32 bg-gradient-to-r from-accent-cyan to-accent-purple rounded-full"
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                style={{ transformOrigin: 'left' }}
+              />
             </motion.div>
-          </motion.div>
 
-          {/* Enhanced Content */}
-          <motion.div
-            className="space-y-8"
-            variants={itemVariants}
-          >
-            <motion.h2 
-              className="text-6xl lg:text-7xl font-display font-bold gradient-text leading-tight"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              About Me
-            </motion.h2>
-            
-            {/* Animated Text Reveal */}
-            <motion.div className="text-xl lg:text-2xl text-neutral-700 dark:text-neutral-300 leading-relaxed space-y-6">
-              {aboutWords.map((word, i) => (
-                <motion.span
+            <div className="space-y-4">
+              {paragraphs.map((para, i) => (
+                <motion.p
                   key={i}
-                  className="inline-block mr-2"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ 
-                    duration: 0.3, 
-                    delay: 0.6 + i * 0.03,
-                    ease: 'easeOut'
-                  }}
+                  className="text-slate-600 dark:text-slate-light text-lg leading-relaxed"
+                  variants={itemVariants}
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.3 + i * 0.1 }}
+                  dangerouslySetInnerHTML={{ __html: highlight(para) }}
+                />
+              ))}
+            </div>
+
+            {/* Stats - floating glass cards */}
+            <motion.div
+              className="grid grid-cols-3 gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.8 }}
+            >
+              {[
+                { value: certs, label: 'Certifications', suffix: '' },
+                { value: projects, label: 'Projects', suffix: '+' },
+                { value: techs, label: 'Technologies', suffix: '' },
+              ].map((stat, i) => (
+                <GlowCard
+                  key={stat.label}
+                  className="p-6 text-center"
+                  glowColor="from-accent-cyan to-accent-purple"
+                  hoverScale={1.03}
                 >
-                  {word}
-                </motion.span>
+                  <span className="text-3xl md:text-4xl font-display font-bold text-accent-cyan">
+                    {stat.value}{stat.suffix}
+                  </span>
+                  <p className="text-slate-600 dark:text-slate text-sm mt-1">{stat.label}</p>
+                </GlowCard>
               ))}
             </motion.div>
+          </div>
 
-            {/* Stats or Highlights */}
-            <motion.div 
-              className="grid grid-cols-2 gap-6 mt-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 1 }}
+          {/* Right: 40% visual - 9:16 portrait frame + skill orbs */}
+          <motion.div
+            className="lg:col-span-2 relative flex justify-center items-center min-h-[500px]"
+            variants={itemVariants}
+          >
+            {/* 9:16 aspect ratio frame - image covers */}
+            <motion.div
+              className="relative w-[min(280px,85vw)] aspect-[9/16] max-h-[520px] rounded-2xl overflow-hidden glass-strong border border-accent-cyan/20 shadow-2xl"
+              initial={{ rotateY: -10, rotateX: 5 }}
+              whileInView={{ rotateY: 0, rotateX: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+              style={{ perspective: 1000 }}
             >
-              <motion.div 
-                className="glass rounded-2xl p-6 text-center"
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-              >
-                <div className="text-3xl font-bold gradient-text">4+</div>
-                <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Internships</div>
-              </motion.div>
-              <motion.div 
-                className="glass rounded-2xl p-6 text-center"
-                whileHover={{ scale: 1.05, rotateY: -5 }}
-              >
-                <div className="text-3xl font-bold gradient-text">8.6</div>
-                <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">CGPA</div>
-              </motion.div>
+              <motion.img
+                src={`${import.meta.env.BASE_URL}nivii.jpg`}
+                alt="Nivetha V"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-space/80 to-transparent pointer-events-none" />
             </motion.div>
+
+            {/* Orbital skill icons */}
+            {skillIcons.map((skill, i) => {
+              const angle = (i / skillIcons.length) * 2 * Math.PI - Math.PI / 2
+              const radius = 160
+              const x = Math.cos(angle) * radius
+              const y = Math.sin(angle) * radius
+              return (
+                <motion.div
+                  key={skill}
+                  className="absolute w-12 h-12 rounded-xl glass-neon flex items-center justify-center text-xs font-mono text-accent-cyan border border-accent-cyan/30"
+                  style={{ left: '50%', top: '50%', marginLeft: x - 24, marginTop: y - 24 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ delay: 0.5 + i * 0.1, type: 'spring', stiffness: 200 }}
+                  whileHover={{ scale: 1.15, boxShadow: '0 0 25px rgba(100, 255, 218, 0.4)' }}
+                >
+                  {skill}
+                </motion.div>
+              )
+            })}
           </motion.div>
         </div>
       </div>
     </motion.section>
   )
 }
-
-export default About

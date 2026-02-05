@@ -7,8 +7,9 @@
   "contact": {
     "email": "nivethavenkatraman48@gmail.com",
     "phone": "8825701235",
-    "github": "https://github.com/Nivetha-1235",
-    "resumePdf": "/Resume_Nivetha.pdf"
+    "github": "https://github.com/nivetha3004",
+    "linkedin": "https://www.linkedin.com/in/nivethavenkatraman/",
+    "resumePdf": "Nivetha.V Resume.pdf"
   },
   "about": "I'm a dedicated SQL Developer experienced in building and managing relational databases. I understand both backend data structures and the frontend experiences they power. My focus is optimizing data flow, query performance, and transforming raw data into actionable insights. With a foundation in the MERN Stack and design tools like Figma and Flutterflow, I deliver systems that are both efficient and user-friendly.",
   "skills": {
