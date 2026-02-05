@@ -5,7 +5,7 @@ export default function FooterSection({ data }) {
   const c = data?.contact || {}
   const links = [
     { label: 'LinkedIn', href: c.linkedin || 'https://www.linkedin.com/in/nivethavenkatraman/' },
-    { label: 'GitHub', href: c.github || 'https://github.com/nivetha3004' },
+    { label: 'GitHub', href: c.github || 'https://github.com/Nivetha-1235' },
     { label: 'Email', href: `mailto:${c.email || 'nivethavenkatraman48@gmail.com'}` },
   ]
   const ref = useRef(null)

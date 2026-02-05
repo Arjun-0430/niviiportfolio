@@ -43,9 +43,9 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Orbitron', 'Space Grotesk', 'system-ui', 'sans-serif'],
-        body: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['SF Mono', 'Monaco', 'Consolas', 'monospace'],
+        display: ['Orbitron', 'Poppins', 'Space Grotesk', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'Space Grotesk', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out',

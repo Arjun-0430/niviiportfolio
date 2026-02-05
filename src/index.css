@@ -687,4 +687,151 @@ html.dark .hero-glitch-wrap .glitch-layer-2 {
   91% { transform: translate(0, 0); }
 }
 
+/* ========== LIGHT THEME ENHANCEMENTS (per guide) ========== */
+html:not(.dark) {
+  --light-accent: #0ea5e9;
+  --light-accent-blue: #3b82f6;
+  --light-accent-purple: #8b5cf6;
+  --light-accent-orange: #f97316;
+  --light-accent-green: #10b981;
+  --light-text-primary: #1e293b;
+  --light-text-secondary: #64748b;
+  --light-bg-primary: #ffffff;
+  --light-bg-secondary: #f8fafc;
+  --light-bg-tertiary: #f1f5f9;
+  --light-border: #e2e8f0;
+}
+
+/* Light theme: Hero gradient background */
+html:not(.dark) .hero-section {
+  background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%) !important;
+}
+
+/* Light theme: Gentle float animation for hero name */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+html:not(.dark) .hero-glitch-wrap .hero-glitch-name {
+  animation: gentleFloat 3s ease-in-out infinite;
+  text-shadow:
+    2px 4px 12px rgba(14, 165, 233, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Light theme: Section backgrounds */
+html:not(.dark) [class*="bg-slate-50"] {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+/* Light theme: Glass cards with depth */
+html:not(.dark) .glass-strong {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 2px solid #e2e8f0 !important;
+  box-shadow:
+    0 10px 30px rgba(14, 165, 233, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .glass-strong:hover {
+  box-shadow:
+    0 20px 50px rgba(14, 165, 233, 0.2),
+    0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--light-accent) !important;
+}
+
+/* Light theme: Accent gradient (sky blue → violet) */
+html:not(.dark) .gradient-text,
+html:not(.dark) .from-accent-cyan {
+  --tw-gradient-from: #0ea5e9;
+  --tw-gradient-to: #8b5cf6;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+/* Light theme: CTA / accent buttons - gradient with white text */
+html:not(.dark) .hero-section .bg-accent-cyan,
+html:not(.dark) .hero-section .ripple-cyan {
+  background: linear-gradient(135deg, #0ea5e9, #3b82f6) !important;
+  color: white !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.3);
+}
+
+html:not(.dark) .hero-section .bg-accent-cyan:hover,
+html:not(.dark) .hero-section .ripple-cyan:hover {
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.4);
+}
+
+/* Light theme: Border accent */
+html:not(.dark) .border-accent-cyan\/50,
+html:not(.dark) .border-accent-cyan\/30 {
+  border-color: rgba(14, 165, 233, 0.5) !important;
+}
+
+/* Light theme: Text accent */
+html:not(.dark) .text-accent-cyan {
+  color: #0ea5e9 !important;
+}
+
+/* Light theme: Stats/GlowCard depth */
+html:not(.dark) .glass-neon {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+html:not(.dark) .glass-neon:hover {
+  border-color: var(--light-accent) !important;
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.2) !important;
+}
+
+/* Light theme: Filter pill active state - white text on gradient */
+html:not(.dark) .bg-accent-cyan.text-space {
+  background: linear-gradient(135deg, #0ea5e9, #8b5cf6) !important;
+  color: white !important;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.25);
+}
+
+/* Light theme: Experience card gradient border */
+html:not(.dark) [class*="from-accent-cyan"][class*="via-accent-purple"] {
+  --tw-gradient-from: rgba(14, 165, 233, 0.5);
+  --tw-gradient-via: rgba(139, 92, 246, 0.5);
+  --tw-gradient-to: rgba(14, 165, 233, 0.5);
+}
+
+/* Light theme: Project/GlowCard hover lift */
+html:not(.dark) .group:hover .glass-strong {
+  transform: translateY(-8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light theme: Section underline gradient */
+html:not(.dark) .bg-gradient-to-r.from-accent-cyan.to-accent-purple {
+  background: linear-gradient(90deg, #0ea5e9, #8b5cf6) !important;
+}
+
+/* Light theme: Floating nav in light mode */
+html:not(.dark) .glass-strong.rounded-full {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Light theme: Footer border */
+html:not(.dark) .border-accent-cyan\/10 {
+  border-color: rgba(14, 165, 233, 0.2) !important;
+}
+
+/* Light theme: Scroll progress bar */
+html:not(.dark) [class*="bg-accent-cyan"] {
+  --tw-bg-opacity: 1;
+}
+
+/* Mobile nav: light theme drawer */
+html:not(.dark) aside[aria-label="Navigation menu"] {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-left-color: #e2e8f0 !important;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.08) !important;
+}
+
 

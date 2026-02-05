@@ -9,7 +9,6 @@ const companyLogos = {
   'Photon Interactive Pvt Ltd': '/niviiportfolio/company-logos/photon.svg',
   'VR Della Smart Tech': '/niviiportfolio/company-logos/vrdella.svg',
   'VR Della Pvt Ltd': '/niviiportfolio/company-logos/vrdella.svg',
-  'Varutech Solutions Pvt Ltd': '/niviiportfolio/company-logos/varutech.svg',
   'Core Idea Innovations': '/niviiportfolio/company-logos/core idea innovations.svg',
 }
 

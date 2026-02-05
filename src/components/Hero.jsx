@@ -8,7 +8,7 @@ function getSocialLinks(data) {
   const c = data?.contact || {}
   return [
     { label: 'LinkedIn', href: c.linkedin || 'https://www.linkedin.com/in/nivethavenkatraman/', icon: 'in' },
-    { label: 'GitHub', href: c.github || 'https://github.com/nivetha3004', icon: 'gh' },
+    { label: 'GitHub', href: c.github || 'https://github.com/Nivetha-1235', icon: 'gh' },
     { label: 'Email', href: `mailto:${c.email || 'nivethavenkatraman48@gmail.com'}`, icon: 'mail' },
   ]
 }
@@ -42,8 +42,9 @@ export default function Hero({ data }) {
 
   return (
     <motion.section
+      id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-100 dark:bg-space transition-colors duration-300"
+      className="hero-section relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-100 dark:bg-space transition-colors duration-300"
       style={{ y, opacity }}
       onMouseMove={handleMouseMove}
       onMouseLeave={resetTilt}

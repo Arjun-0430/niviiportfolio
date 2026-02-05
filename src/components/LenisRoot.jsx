@@ -6,9 +6,13 @@ export default function LenisRoot({ children }) {
     <ReactLenis
       root
       options={{
-        duration: 1.2,
+        duration: 1.0,
         smoothWheel: true,
-        lerp: 0.08,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        lerp: 0.12,
+        syncTouch: true,
+        syncTouchLerp: 0.1,
       }}
     >
       {children}
